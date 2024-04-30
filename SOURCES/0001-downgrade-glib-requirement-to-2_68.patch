@@ -1,0 +1,1716 @@
+diff --git a/demo/adw-demo-debug-info.c b/demo/adw-demo-debug-info.c
+index a7f0c1a..d67db89 100644
+--- a/demo/adw-demo-debug-info.c
++++ b/demo/adw-demo-debug-info.c
+@@ -166,5 +166,5 @@ adw_demo_generate_debug_info (void)
+       g_string_append_printf (string, "- ADW_DISABLE_PORTAL: %s\n", adw_disable_portal);
+   }
+ 
+-  return g_string_free_and_steal (string);
++  return g_string_free (string, FALSE);
+ }
+diff --git a/demo/adw-demo-preferences-window.c b/demo/adw-demo-preferences-window.c
+index 5212804..f9b2b80 100644
+--- a/demo/adw-demo-preferences-window.c
++++ b/demo/adw-demo-preferences-window.c
+@@ -8,7 +8,7 @@ struct _AdwDemoPreferencesWindow
+   AdwNavigationPage *subpage2;
+ };
+ 
+-G_DEFINE_FINAL_TYPE (AdwDemoPreferencesWindow, adw_demo_preferences_window, ADW_TYPE_PREFERENCES_WINDOW)
++G_DEFINE_TYPE (AdwDemoPreferencesWindow, adw_demo_preferences_window, ADW_TYPE_PREFERENCES_WINDOW)
+ 
+ AdwDemoPreferencesWindow *
+ adw_demo_preferences_window_new (void)
+diff --git a/demo/adw-demo-window.c b/demo/adw-demo-window.c
+index 195a47a..65d9bcd 100644
+--- a/demo/adw-demo-window.c
++++ b/demo/adw-demo-window.c
+@@ -30,7 +30,7 @@ struct _AdwDemoWindow
+   AdwDemoPageToasts *toasts_page;
+ };
+ 
+-G_DEFINE_FINAL_TYPE (AdwDemoWindow, adw_demo_window, ADW_TYPE_APPLICATION_WINDOW)
++G_DEFINE_TYPE (AdwDemoWindow, adw_demo_window, ADW_TYPE_APPLICATION_WINDOW)
+ 
+ static char *
+ get_color_scheme_icon_name (gpointer user_data,
+diff --git a/demo/pages/about/adw-demo-page-about.c b/demo/pages/about/adw-demo-page-about.c
+index f26d194..1dab4fd 100644
+--- a/demo/pages/about/adw-demo-page-about.c
++++ b/demo/pages/about/adw-demo-page-about.c
+@@ -7,7 +7,7 @@ struct _AdwDemoPageAbout
+   AdwBin parent_instance;
+ };
+ 
+-G_DEFINE_FINAL_TYPE (AdwDemoPageAbout, adw_demo_page_about, ADW_TYPE_BIN)
++G_DEFINE_TYPE (AdwDemoPageAbout, adw_demo_page_about, ADW_TYPE_BIN)
+ 
+ static void
+ demo_run_cb (AdwDemoPageAbout *self)
+diff --git a/demo/pages/animations/adw-demo-page-animations.c b/demo/pages/animations/adw-demo-page-animations.c
+index 3f548c1..3b8f9be 100644
+--- a/demo/pages/animations/adw-demo-page-animations.c
++++ b/demo/pages/animations/adw-demo-page-animations.c
+@@ -2,6 +2,8 @@
+ 
+ #include <glib/gi18n.h>
+ 
++#include "../../../src/adw-macros-private.h"
++
+ struct _AdwDemoPageAnimations
+ {
+   AdwBin parent_instance;
+@@ -33,7 +35,7 @@ enum {
+ 
+ static GParamSpec *props[LAST_PROP];
+ 
+-G_DEFINE_FINAL_TYPE (AdwDemoPageAnimations, adw_demo_page_animations, ADW_TYPE_BIN)
++G_DEFINE_TYPE (AdwDemoPageAnimations, adw_demo_page_animations, ADW_TYPE_BIN)
+ 
+ static AdwAnimation *
+ get_current_animation (AdwDemoPageAnimations *self)
+diff --git a/demo/pages/avatar/adw-demo-page-avatar.c b/demo/pages/avatar/adw-demo-page-avatar.c
+index 2bc9da3..2104361 100644
+--- a/demo/pages/avatar/adw-demo-page-avatar.c
++++ b/demo/pages/avatar/adw-demo-page-avatar.c
+@@ -12,7 +12,7 @@ struct _AdwDemoPageAvatar
+   GtkListBox *contacts;
+ };
+ 
+-G_DEFINE_FINAL_TYPE (AdwDemoPageAvatar, adw_demo_page_avatar, ADW_TYPE_BIN)
++G_DEFINE_TYPE (AdwDemoPageAvatar, adw_demo_page_avatar, ADW_TYPE_BIN)
+ 
+ static char *
+ create_random_name (void)
+diff --git a/demo/pages/buttons/adw-demo-page-buttons.c b/demo/pages/buttons/adw-demo-page-buttons.c
+index 2a205cc..f586871 100644
+--- a/demo/pages/buttons/adw-demo-page-buttons.c
++++ b/demo/pages/buttons/adw-demo-page-buttons.c
+@@ -7,7 +7,7 @@ struct _AdwDemoPageButtons
+   AdwBin parent_instance;
+ };
+ 
+-G_DEFINE_FINAL_TYPE (AdwDemoPageButtons, adw_demo_page_buttons, ADW_TYPE_BIN)
++G_DEFINE_TYPE (AdwDemoPageButtons, adw_demo_page_buttons, ADW_TYPE_BIN)
+ 
+ static void
+ adw_demo_page_buttons_class_init (AdwDemoPageButtonsClass *klass)
+diff --git a/demo/pages/carousel/adw-demo-page-carousel.c b/demo/pages/carousel/adw-demo-page-carousel.c
+index 621f3e1..1c0bf10 100644
+--- a/demo/pages/carousel/adw-demo-page-carousel.c
++++ b/demo/pages/carousel/adw-demo-page-carousel.c
+@@ -13,7 +13,7 @@ struct _AdwDemoPageCarousel
+   AdwComboRow *indicators_row;
+ };
+ 
+-G_DEFINE_FINAL_TYPE (AdwDemoPageCarousel, adw_demo_page_carousel, ADW_TYPE_BIN)
++G_DEFINE_TYPE (AdwDemoPageCarousel, adw_demo_page_carousel, ADW_TYPE_BIN)
+ 
+ static char *
+ get_orientation_name (AdwEnumListItem *item,
+diff --git a/demo/pages/clamp/adw-demo-page-clamp.c b/demo/pages/clamp/adw-demo-page-clamp.c
+index 1a5fe94..7d9802b 100644
+--- a/demo/pages/clamp/adw-demo-page-clamp.c
++++ b/demo/pages/clamp/adw-demo-page-clamp.c
+@@ -7,7 +7,7 @@ struct _AdwDemoPageClamp
+   AdwBin parent_instance;
+ };
+ 
+-G_DEFINE_FINAL_TYPE (AdwDemoPageClamp, adw_demo_page_clamp, ADW_TYPE_BIN)
++G_DEFINE_TYPE (AdwDemoPageClamp, adw_demo_page_clamp, ADW_TYPE_BIN)
+ 
+ static void
+ adw_demo_page_clamp_class_init (AdwDemoPageClampClass *klass)
+diff --git a/demo/pages/dialogs/adw-demo-page-dialogs.c b/demo/pages/dialogs/adw-demo-page-dialogs.c
+index 37b7936..0bcae9d 100644
+--- a/demo/pages/dialogs/adw-demo-page-dialogs.c
++++ b/demo/pages/dialogs/adw-demo-page-dialogs.c
+@@ -9,7 +9,7 @@ struct _AdwDemoPageDialogs
+   AdwToast *last_toast;
+ };
+ 
+-G_DEFINE_FINAL_TYPE (AdwDemoPageDialogs, adw_demo_page_dialogs, ADW_TYPE_BIN)
++G_DEFINE_TYPE (AdwDemoPageDialogs, adw_demo_page_dialogs, ADW_TYPE_BIN)
+ 
+ enum {
+   SIGNAL_ADD_TOAST,
+diff --git a/demo/pages/lists/adw-demo-page-lists.c b/demo/pages/lists/adw-demo-page-lists.c
+index 1b3f9ce..b3a782f 100644
+--- a/demo/pages/lists/adw-demo-page-lists.c
++++ b/demo/pages/lists/adw-demo-page-lists.c
+@@ -14,7 +14,7 @@ enum {
+ 
+ static guint signals[SIGNAL_LAST_SIGNAL];
+ 
+-G_DEFINE_FINAL_TYPE (AdwDemoPageLists, adw_demo_page_lists, ADW_TYPE_BIN)
++G_DEFINE_TYPE (AdwDemoPageLists, adw_demo_page_lists, ADW_TYPE_BIN)
+ 
+ static void
+ entry_apply_cb (AdwDemoPageLists *self)
+diff --git a/demo/pages/navigation-view/adw-demo-page-navigation-view.c b/demo/pages/navigation-view/adw-demo-page-navigation-view.c
+index 3624622..db0a6c9 100644
+--- a/demo/pages/navigation-view/adw-demo-page-navigation-view.c
++++ b/demo/pages/navigation-view/adw-demo-page-navigation-view.c
+@@ -9,7 +9,7 @@ struct _AdwDemoPageNavigationView
+   AdwBin parent_instance;
+ };
+ 
+-G_DEFINE_FINAL_TYPE (AdwDemoPageNavigationView, adw_demo_page_navigation_view, ADW_TYPE_BIN)
++G_DEFINE_TYPE (AdwDemoPageNavigationView, adw_demo_page_navigation_view, ADW_TYPE_BIN)
+ 
+ static void
+ demo_run_cb (AdwDemoPageNavigationView *self)
+diff --git a/demo/pages/navigation-view/adw-navigation-view-demo-window.c b/demo/pages/navigation-view/adw-navigation-view-demo-window.c
+index 389efb3..a06328f 100644
+--- a/demo/pages/navigation-view/adw-navigation-view-demo-window.c
++++ b/demo/pages/navigation-view/adw-navigation-view-demo-window.c
+@@ -7,7 +7,7 @@ struct _AdwNavigationViewDemoWindow
+   AdwWindow parent_instance;
+ };
+ 
+-G_DEFINE_FINAL_TYPE (AdwNavigationViewDemoWindow, adw_navigation_view_demo_window, ADW_TYPE_WINDOW)
++G_DEFINE_TYPE (AdwNavigationViewDemoWindow, adw_navigation_view_demo_window, ADW_TYPE_WINDOW)
+ 
+ static void
+ adw_navigation_view_demo_window_class_init (AdwNavigationViewDemoWindowClass *klass)
+diff --git a/demo/pages/split-views/adw-demo-page-split-views.c b/demo/pages/split-views/adw-demo-page-split-views.c
+index 260a47e..2ed90ca 100644
+--- a/demo/pages/split-views/adw-demo-page-split-views.c
++++ b/demo/pages/split-views/adw-demo-page-split-views.c
+@@ -10,7 +10,7 @@ struct _AdwDemoPageSplitViews
+   AdwBin parent_instance;
+ };
+ 
+-G_DEFINE_FINAL_TYPE (AdwDemoPageSplitViews, adw_demo_page_split_views, ADW_TYPE_BIN)
++G_DEFINE_TYPE (AdwDemoPageSplitViews, adw_demo_page_split_views, ADW_TYPE_BIN)
+ 
+ static void
+ demo_run_navigation_cb (AdwDemoPageSplitViews *self)
+diff --git a/demo/pages/split-views/adw-navigation-split-view-demo-window.c b/demo/pages/split-views/adw-navigation-split-view-demo-window.c
+index 7a982f8..c530e7d 100644
+--- a/demo/pages/split-views/adw-navigation-split-view-demo-window.c
++++ b/demo/pages/split-views/adw-navigation-split-view-demo-window.c
+@@ -7,7 +7,7 @@ struct _AdwNavigationSplitViewDemoWindow
+   AdwWindow parent_instance;
+ };
+ 
+-G_DEFINE_FINAL_TYPE (AdwNavigationSplitViewDemoWindow, adw_navigation_split_view_demo_window, ADW_TYPE_WINDOW)
++G_DEFINE_TYPE (AdwNavigationSplitViewDemoWindow, adw_navigation_split_view_demo_window, ADW_TYPE_WINDOW)
+ 
+ static void
+ adw_navigation_split_view_demo_window_class_init (AdwNavigationSplitViewDemoWindowClass *klass)
+diff --git a/demo/pages/split-views/adw-overlay-split-view-demo-window.c b/demo/pages/split-views/adw-overlay-split-view-demo-window.c
+index 1ecd04c..6020713 100644
+--- a/demo/pages/split-views/adw-overlay-split-view-demo-window.c
++++ b/demo/pages/split-views/adw-overlay-split-view-demo-window.c
+@@ -10,7 +10,7 @@ struct _AdwOverlaySplitViewDemoWindow
+   GtkToggleButton *start_button;
+ };
+ 
+-G_DEFINE_FINAL_TYPE (AdwOverlaySplitViewDemoWindow, adw_overlay_split_view_demo_window, ADW_TYPE_WINDOW)
++G_DEFINE_TYPE (AdwOverlaySplitViewDemoWindow, adw_overlay_split_view_demo_window, ADW_TYPE_WINDOW)
+ 
+ static void
+ start_button_notify_active_cb (AdwOverlaySplitViewDemoWindow *self)
+diff --git a/demo/pages/styles/adw-demo-page-styles.c b/demo/pages/styles/adw-demo-page-styles.c
+index 0e516cc..cb21ff0 100644
+--- a/demo/pages/styles/adw-demo-page-styles.c
++++ b/demo/pages/styles/adw-demo-page-styles.c
+@@ -9,7 +9,7 @@ struct _AdwDemoPageStyles
+   AdwBin parent_instance;
+ };
+ 
+-G_DEFINE_FINAL_TYPE (AdwDemoPageStyles, adw_demo_page_styles, ADW_TYPE_BIN)
++G_DEFINE_TYPE (AdwDemoPageStyles, adw_demo_page_styles, ADW_TYPE_BIN)
+ 
+ static void
+ demo_run_cb (AdwDemoPageStyles *self)
+diff --git a/demo/pages/styles/adw-style-demo-window.c b/demo/pages/styles/adw-style-demo-window.c
+index 77bc8ad..fd7fda1 100644
+--- a/demo/pages/styles/adw-style-demo-window.c
++++ b/demo/pages/styles/adw-style-demo-window.c
+@@ -13,7 +13,7 @@ struct _AdwStyleDemoWindow
+   AdwNavigationSplitView *split_view;
+ };
+ 
+-G_DEFINE_FINAL_TYPE (AdwStyleDemoWindow, adw_style_demo_window, ADW_TYPE_WINDOW)
++G_DEFINE_TYPE (AdwStyleDemoWindow, adw_style_demo_window, ADW_TYPE_WINDOW)
+ 
+ enum {
+   PROP_0,
+diff --git a/demo/pages/tab-view/adw-demo-page-tab-view.c b/demo/pages/tab-view/adw-demo-page-tab-view.c
+index 7333f54..7778f75 100644
+--- a/demo/pages/tab-view/adw-demo-page-tab-view.c
++++ b/demo/pages/tab-view/adw-demo-page-tab-view.c
+@@ -9,7 +9,7 @@ struct _AdwDemoPageTabView
+   AdwBin parent_instance;
+ };
+ 
+-G_DEFINE_FINAL_TYPE (AdwDemoPageTabView, adw_demo_page_tab_view, ADW_TYPE_BIN)
++G_DEFINE_TYPE (AdwDemoPageTabView, adw_demo_page_tab_view, ADW_TYPE_BIN)
+ 
+ static void
+ demo_run_cb (AdwDemoPageTabView *self)
+diff --git a/demo/pages/tab-view/adw-tab-view-demo-page.c b/demo/pages/tab-view/adw-tab-view-demo-page.c
+index 00da483..1244d20 100644
+--- a/demo/pages/tab-view/adw-tab-view-demo-page.c
++++ b/demo/pages/tab-view/adw-tab-view-demo-page.c
+@@ -13,7 +13,7 @@ struct _AdwTabViewDemoPage
+   GIcon *last_icon;
+ };
+ 
+-G_DEFINE_FINAL_TYPE (AdwTabViewDemoPage, adw_tab_view_demo_page, ADW_TYPE_BIN)
++G_DEFINE_TYPE (AdwTabViewDemoPage, adw_tab_view_demo_page, ADW_TYPE_BIN)
+ 
+ #define N_COLORS 8
+ 
+diff --git a/demo/pages/tab-view/adw-tab-view-demo-window.c b/demo/pages/tab-view/adw-tab-view-demo-window.c
+index b9224a8..55d9306 100644
+--- a/demo/pages/tab-view/adw-tab-view-demo-window.c
++++ b/demo/pages/tab-view/adw-tab-view-demo-window.c
+@@ -17,7 +17,7 @@ struct _AdwTabViewDemoWindow
+   gboolean in_dispose;
+ };
+ 
+-G_DEFINE_FINAL_TYPE (AdwTabViewDemoWindow, adw_tab_view_demo_window, ADW_TYPE_WINDOW)
++G_DEFINE_TYPE (AdwTabViewDemoWindow, adw_tab_view_demo_window, ADW_TYPE_WINDOW)
+ 
+ static void
+ window_new (GSimpleAction *action,
+diff --git a/demo/pages/toasts/adw-demo-page-toasts.c b/demo/pages/toasts/adw-demo-page-toasts.c
+index 441c24d..39826bc 100644
+--- a/demo/pages/toasts/adw-demo-page-toasts.c
++++ b/demo/pages/toasts/adw-demo-page-toasts.c
+@@ -17,7 +17,7 @@ enum {
+ 
+ static guint signals[SIGNAL_LAST_SIGNAL];
+ 
+-G_DEFINE_FINAL_TYPE (AdwDemoPageToasts, adw_demo_page_toasts, ADW_TYPE_BIN)
++G_DEFINE_TYPE (AdwDemoPageToasts, adw_demo_page_toasts, ADW_TYPE_BIN)
+ 
+ static void
+ add_toast (AdwDemoPageToasts *self,
+diff --git a/demo/pages/view-switcher/adw-demo-page-view-switcher.c b/demo/pages/view-switcher/adw-demo-page-view-switcher.c
+index ba38a54..1e15e8e 100644
+--- a/demo/pages/view-switcher/adw-demo-page-view-switcher.c
++++ b/demo/pages/view-switcher/adw-demo-page-view-switcher.c
+@@ -9,7 +9,7 @@ struct _AdwDemoPageViewSwitcher
+   AdwBin parent_instance;
+ };
+ 
+-G_DEFINE_FINAL_TYPE (AdwDemoPageViewSwitcher, adw_demo_page_view_switcher, ADW_TYPE_BIN)
++G_DEFINE_TYPE (AdwDemoPageViewSwitcher, adw_demo_page_view_switcher, ADW_TYPE_BIN)
+ 
+ static void
+ demo_run_cb (AdwDemoPageViewSwitcher *self)
+diff --git a/demo/pages/view-switcher/adw-view-switcher-demo-window.c b/demo/pages/view-switcher/adw-view-switcher-demo-window.c
+index e35788d..55d8e91 100644
+--- a/demo/pages/view-switcher/adw-view-switcher-demo-window.c
++++ b/demo/pages/view-switcher/adw-view-switcher-demo-window.c
+@@ -7,7 +7,7 @@ struct _AdwViewSwitcherDemoWindow
+   AdwWindow parent_instance;
+ };
+ 
+-G_DEFINE_FINAL_TYPE (AdwViewSwitcherDemoWindow, adw_view_switcher_demo_window, ADW_TYPE_WINDOW)
++G_DEFINE_TYPE (AdwViewSwitcherDemoWindow, adw_view_switcher_demo_window, ADW_TYPE_WINDOW)
+ 
+ static void
+ adw_view_switcher_demo_window_class_init (AdwViewSwitcherDemoWindowClass *klass)
+diff --git a/demo/pages/welcome/adw-demo-page-welcome.c b/demo/pages/welcome/adw-demo-page-welcome.c
+index e0683e5..91d7433 100644
+--- a/demo/pages/welcome/adw-demo-page-welcome.c
++++ b/demo/pages/welcome/adw-demo-page-welcome.c
+@@ -7,7 +7,7 @@ struct _AdwDemoPageWelcome
+   AdwBin parent_instance;
+ };
+ 
+-G_DEFINE_FINAL_TYPE (AdwDemoPageWelcome, adw_demo_page_welcome, ADW_TYPE_BIN)
++G_DEFINE_TYPE (AdwDemoPageWelcome, adw_demo_page_welcome, ADW_TYPE_BIN)
+ 
+ static void
+ adw_demo_page_welcome_class_init (AdwDemoPageWelcomeClass *klass)
+diff --git a/src/adw-about-window.c b/src/adw-about-window.c
+index b2ab763..d8fc82d 100644
+--- a/src/adw-about-window.c
++++ b/src/adw-about-window.c
+@@ -12,6 +12,7 @@
+ 
+ #include "adw-action-row.h"
+ #include "adw-header-bar.h"
++#include "adw-macros-private.h"
+ #include "adw-marshalers.h"
+ #include "adw-message-dialog.h"
+ #include "adw-navigation-view.h"
+diff --git a/src/adw-animation-target.c b/src/adw-animation-target.c
+index b30bcdd..19d2e2e 100644
+--- a/src/adw-animation-target.c
++++ b/src/adw-animation-target.c
+@@ -8,6 +8,8 @@
+ 
+ #include "adw-animation-target-private.h"
+ 
++#include "adw-macros-private.h"
++
+ /**
+  * AdwAnimationTarget:
+  *
+diff --git a/src/adw-avatar.c b/src/adw-avatar.c
+index ee2bd51..f0aecb8 100644
+--- a/src/adw-avatar.c
++++ b/src/adw-avatar.c
+@@ -15,6 +15,7 @@
+ 
+ #include "adw-avatar.h"
+ #include "adw-gizmo-private.h"
++#include "adw-macros-private.h"
+ 
+ #define NUMBER_OF_COLORS 14
+ 
+diff --git a/src/adw-back-button.c b/src/adw-back-button.c
+index 055dd10..0bbf48a 100644
+--- a/src/adw-back-button.c
++++ b/src/adw-back-button.c
+@@ -12,6 +12,7 @@
+ #include "adw-back-button-private.h"
+ 
+ #include "adw-bin.h"
++#include "adw-macros-private.h"
+ #include "adw-navigation-view-private.h"
+ #include "adw-widget-utils-private.h"
+ 
+@@ -305,7 +306,7 @@ pop_to_page_cb (AdwBackButton *self,
+   g_slist_free_full (pop_data.pop_before, g_free);
+ }
+ 
+-static void
++static gboolean
+ clear_menu (AdwBackButton *self)
+ {
+   g_clear_pointer (&self->navigation_menu, gtk_widget_unparent);
+@@ -316,6 +317,7 @@ clear_menu (AdwBackButton *self)
+   }
+ 
+   self->clear_menu_id = 0;
++  return G_SOURCE_REMOVE;
+ }
+ 
+ static void
+@@ -325,7 +327,7 @@ navigation_menu_closed_cb (AdwBackButton *self)
+ 
+   gtk_widget_unset_state_flags (button, GTK_STATE_FLAG_CHECKED);
+ 
+-  self->clear_menu_id = g_idle_add_once ((GSourceOnceFunc) clear_menu, self);
++  self->clear_menu_id = g_idle_add ((GSourceFunc) clear_menu, self);
+ }
+ 
+ static void
+diff --git a/src/adw-banner.c b/src/adw-banner.c
+index 7cd6e07..570e3de 100644
+--- a/src/adw-banner.c
++++ b/src/adw-banner.c
+@@ -9,6 +9,7 @@
+ #include "adw-banner.h"
+ 
+ #include "adw-gizmo-private.h"
++#include "adw-macros-private.h"
+ #include "adw-marshalers.h"
+ #include "adw-widget-utils-private.h"
+ 
+diff --git a/src/adw-breakpoint.c b/src/adw-breakpoint.c
+index e00dcd5..8fc4a7c 100644
+--- a/src/adw-breakpoint.c
++++ b/src/adw-breakpoint.c
+@@ -12,6 +12,7 @@
+ 
+ #include "adw-gtkbuilder-utils-private.h"
+ #include "adw-length-unit.h"
++#include "adw-macros-private.h"
+ #include "adw-marshalers.h"
+ 
+ #include <gobject/gvaluecollector.h>
+diff --git a/src/adw-button-content.c b/src/adw-button-content.c
+index 485dc14..b57b533 100644
+--- a/src/adw-button-content.c
++++ b/src/adw-button-content.c
+@@ -9,6 +9,7 @@
+ #include "config.h"
+ #include "adw-button-content.h"
+ 
++#include "adw-macros-private.h"
+ #include "adw-split-button.h"
+ 
+ /**
+diff --git a/src/adw-carousel-indicator-dots.c b/src/adw-carousel-indicator-dots.c
+index 3b07ae9..06d3da0 100644
+--- a/src/adw-carousel-indicator-dots.c
++++ b/src/adw-carousel-indicator-dots.c
+@@ -9,6 +9,7 @@
+ #include "adw-carousel-indicator-dots.h"
+ 
+ #include "adw-animation-util.h"
++#include "adw-macros-private.h"
+ #include "adw-swipeable.h"
+ #include "adw-timed-animation.h"
+ 
+diff --git a/src/adw-carousel-indicator-lines.c b/src/adw-carousel-indicator-lines.c
+index 423e654..3804de3 100644
+--- a/src/adw-carousel-indicator-lines.c
++++ b/src/adw-carousel-indicator-lines.c
+@@ -8,6 +8,7 @@
+ 
+ #include "adw-carousel-indicator-lines.h"
+ 
++#include "adw-macros-private.h"
+ #include "adw-swipeable.h"
+ #include "adw-timed-animation.h"
+ 
+diff --git a/src/adw-carousel.c b/src/adw-carousel.c
+index a80ff38..d725e30 100644
+--- a/src/adw-carousel.c
++++ b/src/adw-carousel.c
+@@ -9,6 +9,7 @@
+ #include "adw-carousel.h"
+ 
+ #include "adw-animation-util.h"
++#include "adw-macros-private.h"
+ #include "adw-marshalers.h"
+ #include "adw-navigation-direction.h"
+ #include "adw-spring-animation.h"
+@@ -465,10 +466,11 @@ update_orientation (AdwCarousel *self)
+   set_orientable_style_classes (GTK_ORIENTABLE (self));
+ }
+ 
+-static void
++static gboolean
+ scroll_timeout_cb (AdwCarousel *self)
+ {
+   self->can_scroll = TRUE;
++  return G_SOURCE_REMOVE;
+ }
+ 
+ static gboolean
+@@ -534,9 +536,9 @@ scroll_cb (AdwCarousel              *self,
+ 
+   self->can_scroll = FALSE;
+   self->scroll_timeout_id =
+-   g_timeout_add_once (SCROLL_TIMEOUT_DURATION,
+-                       (GSourceOnceFunc) scroll_timeout_cb,
+-                       self);
++   g_timeout_add (SCROLL_TIMEOUT_DURATION,
++                  (GSourceFunc) scroll_timeout_cb,
++                  self);
+ 
+   return GDK_EVENT_STOP;
+ }
+@@ -1432,7 +1434,7 @@ adw_carousel_scroll_to (AdwCarousel *self,
+     data->widget = g_object_ref (widget);
+     data->animate = animate;
+ 
+-    g_idle_add_once ((GSourceOnceFunc) scroll_to_idle_cb, data);
++    g_idle_add ((GSourceFunc) scroll_to_idle_cb, data);
+     return;
+   }
+ 
+diff --git a/src/adw-clamp-layout.c b/src/adw-clamp-layout.c
+index 12594e5..709b6ec 100644
+--- a/src/adw-clamp-layout.c
++++ b/src/adw-clamp-layout.c
+@@ -13,6 +13,7 @@
+ #include "adw-easing.h"
+ #include "adw-enums.h"
+ #include "adw-length-unit.h"
++#include "adw-macros-private.h"
+ 
+ /**
+  * AdwClampLayout:
+diff --git a/src/adw-clamp-scrollable.c b/src/adw-clamp-scrollable.c
+index e40de93..ee18ae0 100644
+--- a/src/adw-clamp-scrollable.c
++++ b/src/adw-clamp-scrollable.c
+@@ -10,6 +10,7 @@
+ #include "adw-clamp-layout.h"
+ #include "adw-enums.h"
+ #include "adw-length-unit.h"
++#include "adw-macros-private.h"
+ #include "adw-widget-utils-private.h"
+ 
+ /**
+diff --git a/src/adw-clamp.c b/src/adw-clamp.c
+index 5ed5c54..64cacf4 100644
+--- a/src/adw-clamp.c
++++ b/src/adw-clamp.c
+@@ -10,6 +10,7 @@
+ #include "adw-clamp-layout.h"
+ #include "adw-enums.h"
+ #include "adw-length-unit.h"
++#include "adw-macros-private.h"
+ #include "adw-widget-utils-private.h"
+ 
+ /**
+diff --git a/src/adw-enum-list-model.c b/src/adw-enum-list-model.c
+index f6018b4..2d920b0 100644
+--- a/src/adw-enum-list-model.c
++++ b/src/adw-enum-list-model.c
+@@ -8,6 +8,8 @@
+ 
+ #include "adw-enum-list-model.h"
+ 
++#include "adw-macros-private.h"
++
+ #include <gio/gio.h>
+ #include <gtk/gtk.h>
+ 
+diff --git a/src/adw-fading-label.c b/src/adw-fading-label.c
+index 8b34fd3..415cfd1 100644
+--- a/src/adw-fading-label.c
++++ b/src/adw-fading-label.c
+@@ -11,6 +11,7 @@
+ 
+ #include <glib/gi18n-lib.h>
+ #include "adw-bidi-private.h"
++#include "adw-macros-private.h"
+ 
+ #define FADE_WIDTH 18.0f
+ 
+diff --git a/src/adw-flap.c b/src/adw-flap.c
+index 3a1f6d7..cb8291d 100644
+--- a/src/adw-flap.c
++++ b/src/adw-flap.c
+@@ -12,6 +12,7 @@
+ 
+ #include "adw-animation-util.h"
+ #include "adw-gizmo-private.h"
++#include "adw-macros-private.h"
+ #include "adw-shadow-helper-private.h"
+ #include "adw-spring-animation.h"
+ #include "adw-swipeable.h"
+diff --git a/src/adw-gizmo.c b/src/adw-gizmo.c
+index 217071e..df1695e 100644
+--- a/src/adw-gizmo.c
++++ b/src/adw-gizmo.c
+@@ -9,6 +9,7 @@
+ 
+ #include "adw-gizmo-private.h"
+ 
++#include "adw-macros-private.h"
+ #include "adw-widget-utils-private.h"
+ 
+ struct _AdwGizmo
+diff --git a/src/adw-header-bar.c b/src/adw-header-bar.c
+index 052ce75..336963e 100644
+--- a/src/adw-header-bar.c
++++ b/src/adw-header-bar.c
+@@ -27,6 +27,7 @@
+ #include "adw-bin.h"
+ #include "adw-enums.h"
+ #include "adw-gizmo-private.h"
++#include "adw-macros-private.h"
+ #include "adw-navigation-split-view.h"
+ #include "adw-navigation-view.h"
+ #include "adw-overlay-split-view.h"
+diff --git a/src/adw-indicator-bin.c b/src/adw-indicator-bin.c
+index 24b290d..5c0686c 100644
+--- a/src/adw-indicator-bin.c
++++ b/src/adw-indicator-bin.c
+@@ -10,6 +10,7 @@
+ #include "adw-indicator-bin-private.h"
+ 
+ #include "adw-gizmo-private.h"
++#include "adw-macros-private.h"
+ #include "adw-widget-utils-private.h"
+ 
+ /**
+diff --git a/src/adw-inspector-page.c b/src/adw-inspector-page.c
+index fa28678..9708735 100644
+--- a/src/adw-inspector-page.c
++++ b/src/adw-inspector-page.c
+@@ -12,6 +12,7 @@
+ #include "adw-inspector-page-private.h"
+ 
+ #include <adwaita.h>
++#include "adw-macros-private.h"
+ #include "adw-settings-private.h"
+ 
+ struct _AdwInspectorPage
+diff --git a/src/adw-leaflet.c b/src/adw-leaflet.c
+index 17767eb..fb7047c 100644
+--- a/src/adw-leaflet.c
++++ b/src/adw-leaflet.c
+@@ -10,6 +10,7 @@
+ #include "adw-animation-util.h"
+ #include "adw-enums-private.h"
+ #include "adw-fold-threshold-policy.h"
++#include "adw-macros-private.h"
+ #include "adw-leaflet.h"
+ #include "adw-shadow-helper-private.h"
+ #include "adw-spring-animation.h"
+diff --git a/src/adw-macros-private.h b/src/adw-macros-private.h
+new file mode 100644
+index 0000000..a7b6638
+--- /dev/null
++++ b/src/adw-macros-private.h
+@@ -0,0 +1,28 @@
++/*
++ * Copyright (C) 2021 Purism SPC
++ *
++ * SPDX-License-Identifier: LGPL-2.1-or-later
++ */
++
++#pragma once
++
++#if !defined(_ADWAITA_INSIDE) && !defined(ADWAITA_COMPILATION)
++#error "Only <adwaita.h> can be included directly."
++#endif
++
++#include <glib-object.h>
++
++G_BEGIN_DECLS
++
++#if !GLIB_CHECK_VERSION(2, 70, 0)
++#define G_DEFINE_FINAL_TYPE           G_DEFINE_TYPE
++#define G_DEFINE_FINAL_TYPE_WITH_CODE G_DEFINE_TYPE_WITH_CODE
++#endif
++
++#if !GLIB_CHECK_VERSION(2, 76, 0)
++gboolean adw_g_set_str (char **str_pointer, const char *new_str);
++#define g_set_str adw_g_set_str
++#define g_string_free_and_steal(x) g_string_free ((x), FALSE)
++#endif
++
++G_END_DECLS
+diff --git a/src/adw-main.c b/src/adw-main.c
+index e6e3493..385d24c 100644
+--- a/src/adw-main.c
++++ b/src/adw-main.c
+@@ -8,6 +8,7 @@
+ #include "adw-main-private.h"
+ 
+ #include "adw-inspector-page-private.h"
++#include "adw-macros-private.h"
+ #include "adw-style-manager-private.h"
+ #include <glib/gi18n-lib.h>
+ #include <gtk/gtk.h>
+@@ -88,3 +89,20 @@ adw_is_granite_present (void)
+ 
+   return present;
+ }
++
++#if !GLIB_CHECK_VERSION(2, 76, 0)
++gboolean adw_g_set_str (char **str_pointer, const char *new_str)
++{
++  char *copy;
++
++  if (*str_pointer == new_str ||
++      (*str_pointer && new_str && strcmp (*str_pointer, new_str) == 0))
++    return FALSE;
++
++  copy = g_strdup (new_str);
++  g_free (*str_pointer);
++  *str_pointer = copy;
++
++  return TRUE;
++}
++#endif
+diff --git a/src/adw-message-dialog.c b/src/adw-message-dialog.c
+index 52420e3..c0b3a0d 100644
+--- a/src/adw-message-dialog.c
++++ b/src/adw-message-dialog.c
+@@ -12,6 +12,7 @@
+ #include "adw-gizmo-private.h"
+ #include "adw-gtkbuilder-utils-private.h"
+ #include "adw-marshalers.h"
++#include "adw-macros-private.h"
+ #include "adw-widget-utils-private.h"
+ 
+ /**
+@@ -268,7 +269,7 @@ parent_size_cb (AdwMessageDialog *self)
+   gtk_widget_queue_resize (GTK_WIDGET (self));
+ }
+ 
+-static void
++static gboolean
+ parent_state_idle_cb (AdwMessageDialog *self)
+ {
+   AdwMessageDialogPrivate *priv = adw_message_dialog_get_instance_private (self);
+@@ -276,6 +277,7 @@ parent_state_idle_cb (AdwMessageDialog *self)
+   parent_size_cb (self);
+ 
+   priv->parent_state_idle_id = 0;
++  return G_SOURCE_REMOVE;
+ }
+ 
+ static void
+@@ -286,7 +288,7 @@ parent_state_cb (AdwMessageDialog *self)
+   g_clear_handle_id (&priv->parent_state_idle_id, g_source_remove);
+ 
+   priv->parent_state_idle_id =
+-    g_idle_add_once ((GSourceOnceFunc) parent_state_idle_cb, self);
++    g_idle_add ((GSourceFunc) parent_state_idle_cb, self);
+ }
+ 
+ static void
+diff --git a/src/adw-navigation-split-view.c b/src/adw-navigation-split-view.c
+index d69dd28..1a024c5 100644
+--- a/src/adw-navigation-split-view.c
++++ b/src/adw-navigation-split-view.c
+@@ -14,6 +14,7 @@
+ #include "adw-bin.h"
+ #include "adw-enums.h"
+ #include "adw-length-unit.h"
++#include "adw-macros-private.h"
+ #include "adw-navigation-view-private.h"
+ #include "adw-widget-utils-private.h"
+ 
+@@ -353,10 +354,11 @@ update_navigation_stack (AdwNavigationSplitView *self)
+                                stack, i);
+ }
+ 
+-static void
++static gboolean
+ changing_page_done_cb (AdwNavigationSplitView *self)
+ {
+   self->changing_page = FALSE;
++  return G_SOURCE_REMOVE;
+ }
+ 
+ static gboolean
+@@ -1221,7 +1223,7 @@ adw_navigation_split_view_set_show_content (AdwNavigationSplitView *self,
+   }
+ 
+   self->changing_page = TRUE;
+-  g_idle_add_once ((GSourceOnceFunc) changing_page_done_cb, self);
++  g_idle_add ((GSourceFunc) changing_page_done_cb, self);
+ 
+   if (show_content)
+     adw_navigation_view_push (ADW_NAVIGATION_VIEW (self->navigation_view),
+diff --git a/src/adw-navigation-view.c b/src/adw-navigation-view.c
+index 457a6f9..3923ee8 100644
+--- a/src/adw-navigation-view.c
++++ b/src/adw-navigation-view.c
+@@ -11,6 +11,7 @@
+ 
+ #include "adw-gizmo-private.h"
+ #include "adw-marshalers.h"
++#include "adw-macros-private.h"
+ #include "adw-shadow-helper-private.h"
+ #include "adw-spring-animation.h"
+ #include "adw-swipeable.h"
+diff --git a/src/adw-overlay-split-view.c b/src/adw-overlay-split-view.c
+index a02c1b4..696f29c 100644
+--- a/src/adw-overlay-split-view.c
++++ b/src/adw-overlay-split-view.c
+@@ -14,6 +14,7 @@
+ #include "adw-bin.h"
+ #include "adw-gizmo-private.h"
+ #include "adw-length-unit.h"
++#include "adw-macros-private.h"
+ #include "adw-shadow-helper-private.h"
+ #include "adw-spring-animation.h"
+ #include "adw-swipeable.h"
+diff --git a/src/adw-password-entry-row.c b/src/adw-password-entry-row.c
+index 941e927..f9296ba 100644
+--- a/src/adw-password-entry-row.c
++++ b/src/adw-password-entry-row.c
+@@ -11,6 +11,7 @@
+ #include "adw-password-entry-row.h"
+ 
+ #include "adw-entry-row-private.h"
++#include "adw-macros-private.h"
+ 
+ /**
+  * AdwPasswordEntryRow:
+diff --git a/src/adw-preferences-page.c b/src/adw-preferences-page.c
+index eab6e2f..eeba731 100644
+--- a/src/adw-preferences-page.c
++++ b/src/adw-preferences-page.c
+@@ -8,6 +8,7 @@
+ 
+ #include "adw-preferences-page-private.h"
+ 
++#include "adw-macros-private.h"
+ #include "adw-preferences-group-private.h"
+ #include "adw-widget-utils-private.h"
+ 
+diff --git a/src/adw-preferences-row.c b/src/adw-preferences-row.c
+index 2252cce..b90d30d 100644
+--- a/src/adw-preferences-row.c
++++ b/src/adw-preferences-row.c
+@@ -6,6 +6,8 @@
+ 
+ #include "config.h"
+ 
++#include "adw-macros-private.h"
++
+ #include "adw-preferences-row.h"
+ 
+ /**
+diff --git a/src/adw-settings-impl-gsettings.c b/src/adw-settings-impl-gsettings.c
+index 1a2cee3..ce511c0 100644
+--- a/src/adw-settings-impl-gsettings.c
++++ b/src/adw-settings-impl-gsettings.c
+@@ -8,6 +8,7 @@
+ 
+ #include "config.h"
+ 
++#include "adw-macros-private.h"
+ #include "adw-settings-impl-private.h"
+ 
+ #include <gio/gio.h>
+diff --git a/src/adw-settings-impl-legacy.c b/src/adw-settings-impl-legacy.c
+index 87519a9..9e5f511 100644
+--- a/src/adw-settings-impl-legacy.c
++++ b/src/adw-settings-impl-legacy.c
+@@ -8,6 +8,7 @@
+ 
+ #include "config.h"
+ 
++#include "adw-macros-private.h"
+ #include "adw-settings-impl-private.h"
+ 
+ #include <gtk/gtk.h>
+diff --git a/src/adw-settings-impl-portal.c b/src/adw-settings-impl-portal.c
+index 9f9fbf7..11ed40c 100644
+--- a/src/adw-settings-impl-portal.c
++++ b/src/adw-settings-impl-portal.c
+@@ -8,6 +8,7 @@
+ 
+ #include "config.h"
+ 
++#include "adw-macros-private.h"
+ #include "adw-settings-impl-private.h"
+ 
+ #include <gio/gio.h>
+diff --git a/src/adw-settings-impl-win32.c b/src/adw-settings-impl-win32.c
+index 484e3f8..14d4ad6 100644
+--- a/src/adw-settings-impl-win32.c
++++ b/src/adw-settings-impl-win32.c
+@@ -174,11 +174,12 @@ color_values_changed (AdwSettingsImplWin32 *self)
+   return S_OK;
+ }
+ 
+-static void
++static gboolean
+ color_values_changed_idle (gpointer settings)
+ {
+   color_values_changed (settings);
+   g_object_unref (settings);
++  return G_SOURCE_REMOVE;
+ }
+ 
+ static HRESULT STDMETHODCALLTYPE
+@@ -192,7 +193,7 @@ ColorValuesChanged_Invoke (__FITypedEventHandler_2_Windows__CUI__CViewManagement
+   settings = g_weak_ref_get (&handler->settings);
+   if (settings != NULL) {
+     /* Event handler is invoked from another thread */
+-    g_idle_add_once (color_values_changed_idle, settings);
++    g_idle_add (color_values_changed_idle, settings);
+   }
+   return S_OK;
+ }
+diff --git a/src/adw-settings.c b/src/adw-settings.c
+index cf0e81c..07b7e8e 100644
+--- a/src/adw-settings.c
++++ b/src/adw-settings.c
+@@ -9,6 +9,7 @@
+ #include "config.h"
+ 
+ #include "adw-settings-private.h"
++#include "adw-macros-private.h"
+ 
+ #include "adw-settings-impl-private.h"
+ 
+diff --git a/src/adw-shadow-helper.c b/src/adw-shadow-helper.c
+index 6f65cce..09ec203 100644
+--- a/src/adw-shadow-helper.c
++++ b/src/adw-shadow-helper.c
+@@ -6,9 +6,9 @@
+ 
+ #include "config.h"
+ 
+-#include "adw-shadow-helper-private.h"
+-
+ #include "adw-gizmo-private.h"
++#include "adw-macros-private.h"
++#include "adw-shadow-helper-private.h"
+ 
+ struct _AdwShadowHelper
+ {
+diff --git a/src/adw-spin-row.c b/src/adw-spin-row.c
+index 5a0c5ae..b21c207 100644
+--- a/src/adw-spin-row.c
++++ b/src/adw-spin-row.c
+@@ -9,6 +9,7 @@
+ #include "adw-spin-row.h"
+ 
+ #include "adw-action-row-private.h"
++#include "adw-macros-private.h"
+ #include "adw-marshalers.h"
+ #include "adw-widget-utils-private.h"
+ 
+diff --git a/src/adw-split-button.c b/src/adw-split-button.c
+index 9298b1b..1b77f37 100644
+--- a/src/adw-split-button.c
++++ b/src/adw-split-button.c
+@@ -9,6 +9,7 @@
+ 
+ #include "adw-split-button.h"
+ 
++#include "adw-macros-private.h"
+ #include "adw-marshalers.h"
+ #include "adw-widget-utils-private.h"
+ 
+diff --git a/src/adw-spring-animation.c b/src/adw-spring-animation.c
+index b623d2e..e4d6bae 100644
+--- a/src/adw-spring-animation.c
++++ b/src/adw-spring-animation.c
+@@ -11,6 +11,7 @@
+ 
+ #include "adw-animation-private.h"
+ #include "adw-animation-util.h"
++#include "adw-macros-private.h"
+ 
+ #define DELTA 0.001
+ #define MAX_ITERATIONS 20000
+diff --git a/src/adw-squeezer.c b/src/adw-squeezer.c
+index deea987..68ac6b9 100644
+--- a/src/adw-squeezer.c
++++ b/src/adw-squeezer.c
+@@ -20,6 +20,7 @@
+ 
+ #include "adw-animation-util.h"
+ #include "adw-easing.h"
++#include "adw-macros-private.h"
+ #include "adw-timed-animation.h"
+ #include "adw-widget-utils-private.h"
+ 
+diff --git a/src/adw-status-page.c b/src/adw-status-page.c
+index 4b86221..c155893 100644
+--- a/src/adw-status-page.c
++++ b/src/adw-status-page.c
+@@ -8,6 +8,7 @@
+ 
+ #include "adw-status-page.h"
+ 
++#include "adw-macros-private.h"
+ #include "adw-widget-utils-private.h"
+ 
+ /**
+diff --git a/src/adw-style-manager.c b/src/adw-style-manager.c
+index d27ebda..49faa66 100644
+--- a/src/adw-style-manager.c
++++ b/src/adw-style-manager.c
+@@ -10,6 +10,7 @@
+ 
+ #include "adw-style-manager-private.h"
+ 
++#include "adw-macros-private.h"
+ #include "adw-main-private.h"
+ #include "adw-settings-private.h"
+ #include <gtk/gtk.h>
+@@ -117,13 +118,14 @@ register_display (GdkDisplayManager *display_manager,
+                     NULL);
+ }
+ 
+-static void
++static gboolean
+ enable_animations_cb (AdwStyleManager *self)
+ {
+   gtk_style_context_remove_provider_for_display (self->display,
+                                                  GTK_STYLE_PROVIDER (self->animations_provider));
+ 
+   self->animation_timeout_id = 0;
++  return G_SOURCE_REMOVE;
+ }
+ 
+ static void
+@@ -170,9 +172,9 @@ update_stylesheet (AdwStyleManager *self)
+   }
+ 
+   self->animation_timeout_id =
+-    g_timeout_add_once (SWITCH_DURATION,
+-                        (GSourceOnceFunc) enable_animations_cb,
+-                        self);
++    g_timeout_add (SWITCH_DURATION,
++                   (GSourceFunc) enable_animations_cb,
++                   self);
+ }
+ 
+ static gboolean
+diff --git a/src/adw-swipe-tracker.c b/src/adw-swipe-tracker.c
+index 93079b2..f6f7abf 100644
+--- a/src/adw-swipe-tracker.c
++++ b/src/adw-swipe-tracker.c
+@@ -8,6 +8,7 @@
+ 
+ #include "adw-swipe-tracker-private.h"
+ 
++#include "adw-macros-private.h"
+ #include "adw-marshalers.h"
+ #include "adw-navigation-direction.h"
+ 
+diff --git a/src/adw-switch-row.c b/src/adw-switch-row.c
+index e8f650a..2b9132c 100644
+--- a/src/adw-switch-row.c
++++ b/src/adw-switch-row.c
+@@ -6,6 +6,8 @@
+ 
+ #include "config.h"
+ 
++#include "adw-macros-private.h"
++
+ #include "adw-switch-row.h"
+ 
+ /**
+diff --git a/src/adw-tab-bar.c b/src/adw-tab-bar.c
+index 5464dae..6d4facc 100644
+--- a/src/adw-tab-bar.c
++++ b/src/adw-tab-bar.c
+@@ -11,6 +11,7 @@
+ #include "adw-tab-bar-private.h"
+ 
+ #include "adw-bin.h"
++#include "adw-macros-private.h"
+ #include "adw-tab-box-private.h"
+ #include "adw-widget-utils-private.h"
+ 
+diff --git a/src/adw-tab-box.c b/src/adw-tab-box.c
+index db7997d..086a16c 100644
+--- a/src/adw-tab-box.c
++++ b/src/adw-tab-box.c
+@@ -13,6 +13,7 @@
+ #include "adw-animation-util.h"
+ #include "adw-easing.h"
+ #include "adw-gizmo-private.h"
++#include "adw-macros-private.h"
+ #include "adw-marshalers.h"
+ #include "adw-tab-private.h"
+ #include "adw-tab-bar-private.h"
+@@ -834,12 +835,13 @@ get_scroll_animation_value (AdwTabBox *self)
+   return round (adw_lerp (self->scroll_animation_from, to, value));
+ }
+ 
+-static void
++static gboolean
+ drop_switch_timeout_cb (AdwTabBox *self)
+ {
+   self->drop_switch_timeout_id = 0;
+   adw_tab_view_set_selected_page (self->view,
+                                   self->drop_target_tab->page);
++  return G_SOURCE_REMOVE;
+ }
+ 
+ static void
+@@ -856,9 +858,9 @@ set_drop_target_tab (AdwTabBox *self,
+ 
+   if (self->drop_target_tab) {
+     self->drop_switch_timeout_id =
+-      g_timeout_add_once (DROP_SWITCH_TIMEOUT,
+-                          (GSourceOnceFunc) drop_switch_timeout_cb,
+-                          self);
++      g_timeout_add (DROP_SWITCH_TIMEOUT,
++                     (GSourceFunc) drop_switch_timeout_cb,
++                     self);
+   }
+ }
+ 
+@@ -2298,11 +2300,12 @@ remove_animation_done_cb (TabInfo *info)
+   update_separators (self);
+ }
+ 
+-static void
++static gboolean
+ remove_placeholder_scroll_cb (AdwTabBox *self)
+ {
+   animate_scroll_relative (self, -self->placeholder_scroll_offset, CLOSE_ANIMATION_DURATION);
+   self->placeholder_scroll_offset = 0;
++  return G_SOURCE_REMOVE;
+ }
+ 
+ static void
+@@ -2320,7 +2323,7 @@ remove_placeholder (AdwTabBox *self)
+   if (info->appear_animation)
+     adw_animation_skip (info->appear_animation);
+ 
+-  g_idle_add_once ((GSourceOnceFunc) remove_placeholder_scroll_cb, self);
++  g_idle_add ((GSourceFunc) remove_placeholder_scroll_cb, self);
+ 
+   target = adw_callback_animation_target_new ((AdwAnimationTargetFunc)
+                                               appear_animation_value_cb,
+@@ -2735,11 +2738,12 @@ view_drag_drop_cb (AdwTabBox      *self,
+ 
+ /* DND autoscrolling */
+ 
+-static void
++static gboolean
+ reset_drop_target_tab_cb (AdwTabBox *self)
+ {
+   self->reset_drop_target_tab_id = 0;
+   set_drop_target_tab (self, NULL);
++  return G_SOURCE_REMOVE;
+ }
+ 
+ static void
+@@ -2757,7 +2761,7 @@ drag_leave_cb (AdwTabBox               *self,
+ 
+   if (!self->reset_drop_target_tab_id)
+     self->reset_drop_target_tab_id =
+-      g_idle_add_once ((GSourceOnceFunc) reset_drop_target_tab_cb, self);
++      g_idle_add ((GSourceFunc) reset_drop_target_tab_cb, self);
+ 
+   end_autoscroll (self);
+ }
+@@ -2796,10 +2800,11 @@ drag_enter_motion_cb (AdwTabBox               *self,
+ 
+ /* Context menu */
+ 
+-static void
++static gboolean
+ reset_setup_menu_cb (AdwTabBox *self)
+ {
+   g_signal_emit_by_name (self->view, "setup-menu", NULL);
++  return G_SOURCE_REMOVE;
+ }
+ 
+ static void
+@@ -2811,7 +2816,7 @@ touch_menu_notify_visible_cb (AdwTabBox *self)
+   self->hovering = FALSE;
+   update_hover (self);
+ 
+-  g_idle_add_once ((GSourceOnceFunc) reset_setup_menu_cb, self);
++  g_idle_add ((GSourceFunc) reset_setup_menu_cb, self);
+ }
+ 
+ static void
+diff --git a/src/adw-tab-button.c b/src/adw-tab-button.c
+index de54074..ecba9af 100644
+--- a/src/adw-tab-button.c
++++ b/src/adw-tab-button.c
+@@ -13,6 +13,7 @@
+ #include "adw-tab-button.h"
+ 
+ #include "adw-indicator-bin-private.h"
++#include "adw-macros-private.h"
+ #include "adw-marshalers.h"
+ 
+ /* Copied from GtkInspector code */
+diff --git a/src/adw-tab-grid.c b/src/adw-tab-grid.c
+index b0e3913..0d726d9 100644
+--- a/src/adw-tab-grid.c
++++ b/src/adw-tab-grid.c
+@@ -14,6 +14,7 @@
+ #include "adw-easing.h"
+ #include "adw-gizmo-private.h"
+ #include "adw-marshalers.h"
++#include "adw-macros-private.h"
+ #include "adw-tab-overview-private.h"
+ #include "adw-tab-view-private.h"
+ #include "adw-timed-animation.h"
+@@ -983,12 +984,13 @@ activate_tab (AdwTabGrid *self)
+ 
+ /* Scrolling */
+ 
+-static void
++static gboolean
+ drop_switch_timeout_cb (AdwTabGrid *self)
+ {
+   self->drop_switch_timeout_id = 0;
+   adw_tab_view_set_selected_page (self->view,
+                                   self->drop_target_tab->page);
++  return G_SOURCE_REMOVE;
+ }
+ 
+ static void
+@@ -1005,9 +1007,9 @@ set_drop_target_tab (AdwTabGrid *self,
+ 
+   if (self->drop_target_tab) {
+     self->drop_switch_timeout_id =
+-      g_timeout_add_once (DROP_SWITCH_TIMEOUT,
+-                          (GSourceOnceFunc) drop_switch_timeout_cb,
+-                          self);
++      g_timeout_add (DROP_SWITCH_TIMEOUT,
++                     (GSourceFunc) drop_switch_timeout_cb,
++                     self);
+   }
+ }
+ 
+@@ -2726,11 +2728,12 @@ view_drag_drop_cb (AdwTabGrid    *self,
+ 
+ /* DND autoscrolling */
+ 
+-static void
++static gboolean
+ reset_drop_target_tab_cb (AdwTabGrid *self)
+ {
+   self->reset_drop_target_tab_id = 0;
+   set_drop_target_tab (self, NULL);
++  return G_SOURCE_REMOVE;
+ }
+ 
+ static void
+@@ -2748,7 +2751,7 @@ drag_leave_cb (AdwTabGrid              *self,
+ 
+   if (!self->reset_drop_target_tab_id)
+     self->reset_drop_target_tab_id =
+-      g_idle_add_once ((GSourceOnceFunc) reset_drop_target_tab_cb, self);
++      g_idle_add ((GSourceFunc) reset_drop_target_tab_cb, self);
+ 
+   end_autoscroll (self);
+ }
+@@ -2786,10 +2789,11 @@ drag_enter_motion_cb (AdwTabGrid              *self,
+ 
+ /* Context menu */
+ 
+-static void
++static gboolean
+ reset_setup_menu_cb (AdwTabGrid *self)
+ {
+   g_signal_emit_by_name (self->view, "setup-menu", NULL);
++  return G_SOURCE_REMOVE;
+ }
+ 
+ static void
+@@ -2802,7 +2806,7 @@ touch_menu_notify_visible_cb (AdwTabGrid *self)
+   get_other_tab_grid (self)->hovering = FALSE;
+   update_hover (self);
+ 
+-  g_idle_add_once ((GSourceOnceFunc) reset_setup_menu_cb, self);
++  g_idle_add ((GSourceFunc) reset_setup_menu_cb, self);
+ }
+ 
+ static void
+diff --git a/src/adw-tab-overview.c b/src/adw-tab-overview.c
+index 0d72d52..419b64a 100644
+--- a/src/adw-tab-overview.c
++++ b/src/adw-tab-overview.c
+@@ -14,6 +14,7 @@
+ #include "adw-animation-util.h"
+ #include "adw-bin.h"
+ #include "adw-header-bar.h"
++#include "adw-macros-private.h"
+ #include "adw-marshalers.h"
+ #include "adw-style-manager.h"
+ #include "adw-tab-grid-private.h"
+diff --git a/src/adw-tab-thumbnail.c b/src/adw-tab-thumbnail.c
+index 8decd39..060524e 100644
+--- a/src/adw-tab-thumbnail.c
++++ b/src/adw-tab-thumbnail.c
+@@ -11,6 +11,7 @@
+ 
+ #include "adw-fading-label-private.h"
+ #include "adw-gizmo-private.h"
++#include "adw-macros-private.h"
+ #include "adw-tab-view-private.h"
+ #include "adw-timed-animation.h"
+ 
+@@ -144,10 +145,11 @@ update_indicator (AdwTabThumbnail *self)
+   set_style_class (GTK_WIDGET (self), "indicator", indicator != NULL);
+ }
+ 
+-static void
++static gboolean
+ close_idle_cb (AdwTabThumbnail *self)
+ {
+   adw_tab_view_close_page (self->view, self->page);
++  return G_SOURCE_REMOVE;
+ }
+ 
+ static void
+@@ -159,13 +161,14 @@ close_clicked_cb (AdwTabThumbnail *self)
+   /* When animations are disabled, we don't want to immediately remove the
+    * whole tab mid-click. Instead, defer it until the click has happened.
+    */
+-  g_idle_add_once ((GSourceOnceFunc) close_idle_cb, self);
++  g_idle_add ((GSourceFunc) close_idle_cb, self);
+ }
+ 
+-static void
++static gboolean
+ unpin_idle_cb (AdwTabThumbnail *self)
+ {
+   adw_tab_view_set_page_pinned (self->view, self->page, FALSE);
++  return G_SOURCE_REMOVE;
+ }
+ 
+ static void
+@@ -177,7 +180,7 @@ unpin_clicked_cb (AdwTabThumbnail *self)
+   /* When animations are disabled, we don't want to immediately unpin the
+    * whole tab mid-click. Instead, defer it until the click has happened.
+    */
+-  g_idle_add_once ((GSourceOnceFunc) unpin_idle_cb, self);
++  g_idle_add ((GSourceFunc) unpin_idle_cb, self);
+ }
+ 
+ static void
+diff --git a/src/adw-tab-view.c b/src/adw-tab-view.c
+index 2e3dd9c..c02031b 100644
+--- a/src/adw-tab-view.c
++++ b/src/adw-tab-view.c
+@@ -12,6 +12,7 @@
+ 
+ #include "adw-bin.h"
+ #include "adw-gizmo-private.h"
++#include "adw-macros-private.h"
+ #include "adw-marshalers.h"
+ #include "adw-style-manager.h"
+ #include "adw-widget-utils-private.h"
+@@ -2191,7 +2192,7 @@ adw_tab_view_size_allocate (GtkWidget *widget,
+   }
+ }
+ 
+-static void
++static gboolean
+ unmap_extra_pages (AdwTabView *self)
+ {
+   int i;
+@@ -2212,6 +2213,7 @@ unmap_extra_pages (AdwTabView *self)
+   }
+ 
+   self->unmap_extra_pages_cb = 0;
++  return G_SOURCE_REMOVE;
+ }
+ 
+ static void
+@@ -2247,17 +2249,17 @@ adw_tab_view_snapshot (GtkWidget   *widget,
+ 
+     if (!self->unmap_extra_pages_cb)
+       self->unmap_extra_pages_cb =
+-        g_idle_add_once ((GSourceOnceFunc) unmap_extra_pages, self);
++        g_idle_add ((GSourceFunc) unmap_extra_pages, self);
+   }
+ }
+ 
+-static void
++static gboolean
+ draw_overview_pages_after_map_cb (AdwTabView *self)
+ {
+   int i;
+ 
+   if (!self->overview_count)
+-    return;
++    return G_SOURCE_REMOVE;
+ 
+   for (i = 0; i < self->n_pages; i++) {
+     AdwTabPage *page = adw_tab_view_get_nth_page (self, i);
+@@ -2269,6 +2271,7 @@ draw_overview_pages_after_map_cb (AdwTabView *self)
+   }
+ 
+   gtk_widget_queue_allocate (GTK_WIDGET (self));
++  return G_SOURCE_REMOVE;
+ }
+ 
+ static void
+@@ -2279,7 +2282,7 @@ adw_tab_view_map (GtkWidget *widget)
+   GTK_WIDGET_CLASS (adw_tab_view_parent_class)->map (widget);
+ 
+   if (self->overview_count)
+-    g_idle_add_once ((GSourceOnceFunc) draw_overview_pages_after_map_cb, self);
++    g_idle_add ((GSourceFunc) draw_overview_pages_after_map_cb, self);
+ }
+ 
+ static void
+diff --git a/src/adw-tab.c b/src/adw-tab.c
+index 024c620..22eacc9 100644
+--- a/src/adw-tab.c
++++ b/src/adw-tab.c
+@@ -12,6 +12,7 @@
+ #include "adw-bidi-private.h"
+ #include "adw-fading-label-private.h"
+ #include "adw-gizmo-private.h"
++#include "adw-macros-private.h"
+ #include "adw-timed-animation.h"
+ 
+ #define FADE_WIDTH 18.0f
+@@ -243,10 +244,11 @@ update_selected (AdwTab *self)
+   update_indicator (self);
+ }
+ 
+-static void
++static gboolean
+ close_idle_cb (AdwTab *self)
+ {
+   adw_tab_view_close_page (self->view, self->page);
++  return G_SOURCE_REMOVE;
+ }
+ 
+ static void
+@@ -258,7 +260,7 @@ close_clicked_cb (AdwTab *self)
+   /* When animations are disabled, we don't want to immediately remove the
+    * whole tab mid-click. Instead, defer it until the click has happened.
+    */
+-  g_idle_add_once ((GSourceOnceFunc) close_idle_cb, self);
++  g_idle_add ((GSourceFunc) close_idle_cb, self);
+ }
+ 
+ static void
+diff --git a/src/adw-timed-animation.c b/src/adw-timed-animation.c
+index 821e59f..d300fb8 100644
+--- a/src/adw-timed-animation.c
++++ b/src/adw-timed-animation.c
+@@ -10,6 +10,7 @@
+ 
+ #include "adw-animation-private.h"
+ #include "adw-animation-util.h"
++#include "adw-macros-private.h"
+ 
+ /**
+  * AdwTimedAnimation:
+diff --git a/src/adw-toast-overlay.c b/src/adw-toast-overlay.c
+index d057ffe..18f4990 100644
+--- a/src/adw-toast-overlay.c
++++ b/src/adw-toast-overlay.c
+@@ -10,6 +10,7 @@
+ 
+ #include "adw-animation-util.h"
+ #include "adw-easing.h"
++#include "adw-macros-private.h"
+ #include "adw-timed-animation.h"
+ #include "adw-toast-private.h"
+ #include "adw-toast-widget-private.h"
+diff --git a/src/adw-toast-widget.c b/src/adw-toast-widget.c
+index 5b276c7..73b1391 100644
+--- a/src/adw-toast-widget.c
++++ b/src/adw-toast-widget.c
+@@ -9,6 +9,7 @@
+ #include "adw-toast-widget-private.h"
+ 
+ #include "adw-bin.h"
++#include "adw-macros-private.h"
+ 
+ struct _AdwToastWidget {
+   GtkWidget parent_instance;
+@@ -40,12 +41,13 @@ string_is_not_empty (gpointer    user_data,
+   return string && string[0];
+ }
+ 
+-static void
++static gboolean
+ timeout_cb (AdwToastWidget *self)
+ {
+   self->hide_timeout_id = 0;
+ 
+   adw_toast_dismiss (self->toast);
++  return G_SOURCE_REMOVE;
+ }
+ 
+ static void
+@@ -55,9 +57,9 @@ start_timeout (AdwToastWidget *self)
+ 
+   if (!self->hide_timeout_id && timeout)
+     self->hide_timeout_id =
+-      g_timeout_add_once (timeout * 1000,
+-                          (GSourceOnceFunc) (timeout_cb),
+-                          self);
++      g_timeout_add (timeout * 1000,
++                     (GSourceFunc) (timeout_cb),
++                     self);
+ }
+ 
+ static void
+@@ -90,11 +92,12 @@ dismiss (AdwToastWidget *self)
+   adw_toast_dismiss (self->toast);
+ }
+ 
+-static void
++static gboolean
+ close_idle_cb (AdwToastWidget *self)
+ {
+   dismiss (self);
+   g_object_unref (self);
++  return G_SOURCE_REMOVE;
+ }
+ 
+ static void
+@@ -106,7 +109,7 @@ action_clicked_cb (AdwToastWidget *self)
+ 
+   /* Keep the widget alive through the idle. Otherwise it may be immediately
+    * destroyed if animations are disabled */
+-  g_idle_add_once ((GSourceOnceFunc) close_idle_cb, g_object_ref (self));
++  g_idle_add ((GSourceFunc) close_idle_cb, g_object_ref (self));
+ }
+ 
+ static void
+diff --git a/src/adw-toast.c b/src/adw-toast.c
+index 1b455c0..b5526ac 100644
+--- a/src/adw-toast.c
++++ b/src/adw-toast.c
+@@ -8,6 +8,7 @@
+ 
+ #include "adw-toast-private.h"
+ 
++#include "adw-macros-private.h"
+ #include "adw-marshalers.h"
+ #include <stdarg.h>
+ 
+diff --git a/src/adw-toolbar-view.c b/src/adw-toolbar-view.c
+index 6dadc74..b64ec27 100644
+--- a/src/adw-toolbar-view.c
++++ b/src/adw-toolbar-view.c
+@@ -9,6 +9,7 @@
+ #include "config.h"
+ #include "adw-toolbar-view.h"
+ 
++#include "adw-macros-private.h"
+ #include "adw-widget-utils-private.h"
+ 
+ /**
+diff --git a/src/adw-view-stack.c b/src/adw-view-stack.c
+index d0a258b..152fa68 100644
+--- a/src/adw-view-stack.c
++++ b/src/adw-view-stack.c
+@@ -16,6 +16,7 @@
+ 
+ #include "adw-animation-util.h"
+ #include "adw-gizmo-private.h"
++#include "adw-macros-private.h"
+ #include "adw-widget-utils-private.h"
+ 
+ /**
+diff --git a/src/adw-view-switcher-bar.c b/src/adw-view-switcher-bar.c
+index 2455931..e9c0fbe 100644
+--- a/src/adw-view-switcher-bar.c
++++ b/src/adw-view-switcher-bar.c
+@@ -9,6 +9,7 @@
+ 
+ #include "adw-enums.h"
+ #include "adw-breakpoint-bin-private.h"
++#include "adw-macros-private.h"
+ #include "adw-view-switcher-bar.h"
+ 
+ /**
+diff --git a/src/adw-view-switcher-button.c b/src/adw-view-switcher-button.c
+index 9b2c338..45bd14a 100644
+--- a/src/adw-view-switcher-button.c
++++ b/src/adw-view-switcher-button.c
+@@ -8,6 +8,7 @@
+ #include "config.h"
+ 
+ #include "adw-indicator-bin-private.h"
++#include "adw-macros-private.h"
+ #include "adw-view-switcher-button-private.h"
+ 
+ #define TIMEOUT_EXPAND 500
+@@ -54,12 +55,13 @@ static GParamSpec *props[LAST_PROP];
+ G_DEFINE_FINAL_TYPE_WITH_CODE (AdwViewSwitcherButton, adw_view_switcher_button, GTK_TYPE_TOGGLE_BUTTON,
+                                G_IMPLEMENT_INTERFACE (GTK_TYPE_ORIENTABLE, NULL))
+ 
+-static void
++static gboolean
+ switch_timeout_cb (AdwViewSwitcherButton *self)
+ {
+   self->switch_timer = 0;
+ 
+   gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (self), TRUE);
++  return G_SOURCE_REMOVE;
+ }
+ 
+ static void
+@@ -82,9 +84,9 @@ drag_enter_cb (AdwViewSwitcherButton *self)
+     return;
+ 
+   self->switch_timer =
+-    g_timeout_add_once (TIMEOUT_EXPAND,
+-                        (GSourceOnceFunc) switch_timeout_cb,
+-                        self);
++    g_timeout_add (TIMEOUT_EXPAND,
++                   (GSourceFunc) switch_timeout_cb,
++                   self);
+   g_source_set_name_by_id (self->switch_timer, "[adw] switch_timeout_cb");
+ }
+ 
+diff --git a/src/adw-view-switcher-title.c b/src/adw-view-switcher-title.c
+index 1d2492c..d68fb65 100644
+--- a/src/adw-view-switcher-title.c
++++ b/src/adw-view-switcher-title.c
+@@ -7,8 +7,8 @@
+ 
+ #include "config.h"
+ 
++#include "adw-macros-private.h"
+ #include "adw-view-switcher-title.h"
+-
+ #include "adw-squeezer.h"
+ #include "adw-window-title.h"
+ 
+@@ -217,7 +217,7 @@ adw_view_switcher_title_dispose (GObject *object)
+   G_OBJECT_CLASS (adw_view_switcher_title_parent_class)->dispose (object);
+ }
+ 
+-static void
++static gboolean
+ check_window_width_cb (AdwViewSwitcherTitle *self)
+ {
+   GtkRoot *root = gtk_widget_get_root (GTK_WIDGET (self));
+@@ -227,6 +227,7 @@ check_window_width_cb (AdwViewSwitcherTitle *self)
+   update_view_switcher_visible (self);
+ 
+   self->check_window_width_id = 0;
++  return G_SOURCE_REMOVE;
+ }
+ 
+ static void
+@@ -236,7 +237,7 @@ notify_surface_width_cb (AdwViewSwitcherTitle *self)
+     return;
+ 
+   self->check_window_width_id =
+-    g_idle_add_once ((GSourceOnceFunc) check_window_width_cb, self);
++    g_idle_add ((GSourceFunc) check_window_width_cb, self);
+ }
+ 
+ static void
+diff --git a/src/adw-view-switcher.c b/src/adw-view-switcher.c
+index e8058b2..c14515a 100644
+--- a/src/adw-view-switcher.c
++++ b/src/adw-view-switcher.c
+@@ -11,6 +11,7 @@
+ #include "config.h"
+ 
+ #include "adw-enums.h"
++#include "adw-macros-private.h"
+ #include "adw-view-switcher.h"
+ #include "adw-view-switcher-button-private.h"
+ 
+diff --git a/src/adw-window-title.c b/src/adw-window-title.c
+index b7e2ae4..0510d9d 100644
+--- a/src/adw-window-title.c
++++ b/src/adw-window-title.c
+@@ -5,9 +5,10 @@
+  */
+ 
+ #include "config.h"
+-
+ #include "adw-window-title.h"
+ 
++#include "adw-macros-private.h"
++
+ /**
+  * AdwWindowTitle:
+  *
+diff --git a/src/adwaita.h b/src/adwaita.h
+index 88d09d4..4151226 100644
+--- a/src/adwaita.h
++++ b/src/adwaita.h
+@@ -14,8 +14,8 @@ G_BEGIN_DECLS
+ # error "libadwaita requires gtk4 >= 4.11.3"
+ #endif
+ 
+-#if !GLIB_CHECK_VERSION(2, 76, 0)
+-# error "libadwaita requires glib-2.0 >= 2.76.0"
++#if !GLIB_CHECK_VERSION(2, 68, 0)
++# error "libadwaita requires glib-2.0 >= 2.68.0"
+ #endif
+ 
+ #define _ADWAITA_INSIDE
+diff --git a/src/meson.build b/src/meson.build
+index 6b340a8..71a2f64 100644
+--- a/src/meson.build
++++ b/src/meson.build
+@@ -266,7 +266,7 @@ libadwaita_public_sources += files(src_sources)
+ 
+ install_headers(src_headers, subdir: libadwaita_header_subdir)
+ 
+-glib_min_version = '>= 2.76.0'
++glib_min_version = '>= 2.68.0'
+ gtk_min_version = '>= 4.11.3'
+ 
+ gio_dep = dependency('gio-2.0', version: glib_min_version)
