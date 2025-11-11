@@ -1,0 +1,37 @@
+From 67c8c552f7a5895f7a92e876d3f3c3022ef02a39 Mon Sep 17 00:00:00 2001
+From: Alice Mikhaylenko <alicem@gnome.org>
+Date: Mon, 20 Jan 2025 17:17:07 +0400
+Subject: [PATCH 17/33] dialog: Fix :closed emission with window-backed dialogs
+
+Fixes https://gitlab.gnome.org/GNOME/libadwaita/-/issues/990
+
+
+(cherry picked from commit 2be3ee551fa4d8addb3a6819e52aaf24ba726d3f)
+---
+ src/adw-dialog.c | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
+
+diff --git a/src/adw-dialog.c b/src/adw-dialog.c
+index c045a944..0bc3f2a9 100644
+--- a/src/adw-dialog.c
++++ b/src/adw-dialog.c
+@@ -1894,8 +1894,15 @@ adw_dialog_close (AdwDialog *self)
+   }
+ 
+   if (priv->window) {
+-    gtk_window_close (GTK_WINDOW (priv->window));
++    GtkWidget *window = priv->window;
+     priv->window = NULL;
++
++    if (priv->closing_callback)
++      priv->closing_callback (self, priv->user_data);
++
++    g_signal_emit (self, signals[SIGNAL_CLOSED], 0);
++
++    gtk_window_close (GTK_WINDOW (window));
+   } else {
+     adw_dialog_force_close (self);
+   }
+-- 
+2.47.1
+

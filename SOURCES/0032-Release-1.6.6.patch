@@ -1,0 +1,53 @@
+From 8ff0e50141022c9960724f3c2ab9d270dd8daa1d Mon Sep 17 00:00:00 2001
+From: Alice Mikhaylenko <alicem@gnome.org>
+Date: Fri, 11 Apr 2025 17:10:51 +0400
+Subject: [PATCH 32/33] Release 1.6.6
+
+---
+ NEWS        | 12 ++++++++++++
+ meson.build |  4 ++--
+ 2 files changed, 14 insertions(+), 2 deletions(-)
+
+diff --git a/NEWS b/NEWS
+index 7ef28de6..d4870266 100644
+--- a/NEWS
++++ b/NEWS
+@@ -1,3 +1,15 @@
++=============
++Version 1.6.6
++=============
++
++- Build
++  - Don't install internal static library
++- Avoid needlessly reassigning CSS classes for swipe shadows
++- AdwAboutDialog/Window
++  - Clarify :translator-credits docs
++- AdwToastOverlay
++  - Fix accessible role in documentation
++
+ =============
+ Version 1.6.5
+ =============
+diff --git a/meson.build b/meson.build
+index 724312ac..ee60c6e7 100644
+--- a/meson.build
++++ b/meson.build
+@@ -1,5 +1,5 @@
+ project('libadwaita', 'c',
+-          version: '1.6.5',
++          version: '1.6.6',
+           license: 'LGPL-2.1-or-later',
+     meson_version: '>= 0.59.0',
+   default_options: [ 'warning_level=1', 'buildtype=debugoptimized', 'c_std=gnu11' ],
+@@ -29,7 +29,7 @@ package_api_name = '@0@-@1@'.format(meson.project_name(), apiversion)
+ # to 0. When bumping the second version, set the third one to zero.
+ #
+ # A lot easier than libtool, right?
+-libversion = '0.6.5'
++libversion = '0.6.6'
+ # The so major version of the library
+ soversion = 0
+ 
+-- 
+2.47.1
+

@@ -1,0 +1,25 @@
+From c0fb07855ccc619954b05fc25f1c503dd2d60915 Mon Sep 17 00:00:00 2001
+From: Alice Mikhaylenko <alicem@gnome.org>
+Date: Mon, 16 Dec 2024 23:02:19 +0400
+Subject: [PATCH 08/33] bottom-sheet: Fix a crash when closing twice
+
+(cherry picked from commit ee6336d7247c008d110f46d9caa5baf30b1a638b)
+---
+ src/adw-bottom-sheet.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/src/adw-bottom-sheet.c b/src/adw-bottom-sheet.c
+index 900ca7f9..e2c9ff0c 100644
+--- a/src/adw-bottom-sheet.c
++++ b/src/adw-bottom-sheet.c
+@@ -1569,6 +1569,7 @@ adw_bottom_sheet_set_open (AdwBottomSheet *self,
+   if (open) {
+     gtk_widget_set_child_visible (self->dimming, self->modal);
+     gtk_widget_set_child_visible (self->sheet_bin, TRUE);
++    self->has_been_open = true;
+   }
+ 
+   gtk_widget_set_can_target (self->dimming, open);
+-- 
+2.47.1
+

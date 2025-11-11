@@ -1,0 +1,29 @@
+From 8c56332fdc1edfd39ffbbc5c85452f2f4d10b1f6 Mon Sep 17 00:00:00 2001
+From: Sergey Bugaev <bugaevc@gmail.com>
+Date: Sun, 15 Dec 2024 22:00:29 +0300
+Subject: [PATCH 07/33] clamp: Fix multi-child support
+
+Signed-off-by: Sergey Bugaev <bugaevc@gmail.com>
+
+
+(cherry picked from commit 3d4fe3e2a2e3b03f2e3c171c95b342faee10714c)
+---
+ src/adw-clamp-layout.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/adw-clamp-layout.c b/src/adw-clamp-layout.c
+index 2b36c69f..bc8d2b76 100644
+--- a/src/adw-clamp-layout.c
++++ b/src/adw-clamp-layout.c
+@@ -304,7 +304,7 @@ adw_clamp_layout_allocate (GtkLayoutManager *manager,
+       gtk_widget_remove_css_class (child, "medium");
+       gtk_widget_remove_css_class (child, "large");
+ 
+-      return;
++      continue;
+     }
+ 
+     if (self->orientation == GTK_ORIENTATION_HORIZONTAL) {
+-- 
+2.47.1
+

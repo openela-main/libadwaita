@@ -1,0 +1,46 @@
+From cab1b5afefb7a84a110bc4160fc1b957d8138cae Mon Sep 17 00:00:00 2001
+From: Alice Mikhaylenko <alicem@mailbox.org>
+Date: Wed, 12 Mar 2025 21:29:49 +0000
+Subject: [PATCH 26/33] preferences-dialog/window: Fix the search filter stack
+ page type
+
+Oops. I'm happy nothing exploded when we were doing this since 1.0.
+
+
+(cherry picked from commit 684323b896a0c5aa140983d410f8bb29f5d2ea98)
+
+Co-authored-by: Alice Mikhaylenko <alicem@gnome.org>
+---
+ src/adw-preferences-dialog.c | 2 +-
+ src/adw-preferences-window.c | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/src/adw-preferences-dialog.c b/src/adw-preferences-dialog.c
+index 59c5d469..cf5220dd 100644
+--- a/src/adw-preferences-dialog.c
++++ b/src/adw-preferences-dialog.c
+@@ -643,7 +643,7 @@ adw_preferences_dialog_init (AdwPreferencesDialog *self)
+   gtk_widget_init_template (GTK_WIDGET (self));
+ 
+   priv->filter = GTK_FILTER (gtk_custom_filter_new ((GtkCustomFilterFunc) filter_search_results, self, NULL));
+-  expr = gtk_property_expression_new (GTK_TYPE_STACK_PAGE, NULL, "visible");
++  expr = gtk_property_expression_new (ADW_TYPE_VIEW_STACK_PAGE, NULL, "visible");
+ 
+   model = G_LIST_MODEL (adw_view_stack_get_pages (priv->pages_stack));
+   model = G_LIST_MODEL (gtk_filter_list_model_new (model, GTK_FILTER (gtk_bool_filter_new (expr))));
+diff --git a/src/adw-preferences-window.c b/src/adw-preferences-window.c
+index 88d9d6f0..112d441b 100644
+--- a/src/adw-preferences-window.c
++++ b/src/adw-preferences-window.c
+@@ -718,7 +718,7 @@ adw_preferences_window_init (AdwPreferencesWindow *self)
+   gtk_widget_init_template (GTK_WIDGET (self));
+ 
+   priv->filter = GTK_FILTER (gtk_custom_filter_new ((GtkCustomFilterFunc) filter_search_results, self, NULL));
+-  expr = gtk_property_expression_new (GTK_TYPE_STACK_PAGE, NULL, "visible");
++  expr = gtk_property_expression_new (ADW_TYPE_VIEW_STACK_PAGE, NULL, "visible");
+ 
+   model = G_LIST_MODEL (adw_view_stack_get_pages (priv->pages_stack));
+   model = G_LIST_MODEL (gtk_filter_list_model_new (model, GTK_FILTER (gtk_bool_filter_new (expr))));
+-- 
+2.47.1
+

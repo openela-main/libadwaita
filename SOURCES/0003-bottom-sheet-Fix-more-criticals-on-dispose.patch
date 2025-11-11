@@ -1,0 +1,35 @@
+From fb22237d565c6ab8bf1434cc93ac04f8d1fc69d0 Mon Sep 17 00:00:00 2001
+From: Alice Mikhaylenko <alicem@gnome.org>
+Date: Fri, 6 Dec 2024 19:51:08 +0400
+Subject: [PATCH 03/33] bottom-sheet: Fix more criticals on dispose
+
+I can't reproduce those, but makes sense.
+
+Fixes https://gitlab.gnome.org/GNOME/libadwaita/-/issues/969
+
+
+(cherry picked from commit 6e493edae9b9507c252b954442152d2e84fb7f82)
+---
+ src/adw-bottom-sheet.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/adw-bottom-sheet.c b/src/adw-bottom-sheet.c
+index a9011eb0..900ca7f9 100644
+--- a/src/adw-bottom-sheet.c
++++ b/src/adw-bottom-sheet.c
+@@ -600,11 +600,11 @@ adw_bottom_sheet_dispose (GObject *object)
+   g_clear_weak_pointer (&self->last_content_focus);
+   g_clear_weak_pointer (&self->last_sheet_focus);
+ 
++  g_clear_object (&self->swipe_tracker);
+   g_clear_pointer (&self->content_bin, gtk_widget_unparent);
+   g_clear_pointer (&self->dimming, gtk_widget_unparent);
+   g_clear_pointer (&self->sheet_bin, gtk_widget_unparent);
+   g_clear_object (&self->open_animation);
+-  g_clear_object (&self->swipe_tracker);
+   self->content = NULL;
+   self->sheet = NULL;
+   self->sheet_stack = NULL;
+-- 
+2.47.1
+

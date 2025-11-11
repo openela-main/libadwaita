@@ -1,0 +1,49 @@
+From 3df7564fe26c41a1f89bc6a618e9f28881a12687 Mon Sep 17 00:00:00 2001
+From: Alice Mikhaylenko <alicem@mailbox.org>
+Date: Fri, 11 Apr 2025 13:05:27 +0000
+Subject: [PATCH 31/33] docs: clarify translator credits for multiple
+ contributors
+
+(cherry picked from commit 938d1e83a7f405219cf1cc4f3da15d8a946c347e)
+
+Co-authored-by: zefr0x <zer0-x.7ty50@aleeas.com>
+
+(cherry picked from commit 02769a080856e7e94e280060c7128d10204b6829)
+
+Co-authored-by: Alice Mikhaylenko <alicem@mailbox.org>
+---
+ src/adw-about-dialog.c | 3 ++-
+ src/adw-about-window.c | 3 ++-
+ 2 files changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/src/adw-about-dialog.c b/src/adw-about-dialog.c
+index 3ccd53a2..bf31277c 100644
+--- a/src/adw-about-dialog.c
++++ b/src/adw-about-dialog.c
+@@ -3046,7 +3046,8 @@ adw_about_dialog_get_translator_credits (AdwAboutDialog *self)
+  * should be marked as translatable.
+  *
+  * The string may contain email addresses and URLs, see the introduction for
+- * more details.
++ * more details. When there is more than one translator, they must be
++ * separated by a newline in the same string.
+  *
+  * See also:
+  *
+diff --git a/src/adw-about-window.c b/src/adw-about-window.c
+index 2c17e129..9d0a5058 100644
+--- a/src/adw-about-window.c
++++ b/src/adw-about-window.c
+@@ -3103,7 +3103,8 @@ adw_about_window_get_translator_credits (AdwAboutWindow *self)
+  * should be marked as translatable.
+  *
+  * The string may contain email addresses and URLs, see the introduction for
+- * more details.
++ * more details. When there is more than one translator, they must be
++ * separated by a newline in the same string.
+  *
+  * See also:
+  *
+-- 
+2.47.1
+

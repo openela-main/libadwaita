@@ -1,0 +1,57 @@
+From c9833e4e33c2257ac94c041ff73c1b4c678cbde2 Mon Sep 17 00:00:00 2001
+From: Alice Mikhaylenko <alicem@mailbox.org>
+Date: Wed, 12 Mar 2025 20:57:48 +0000
+Subject: [PATCH 25/33] dialog: notify for current breakpoint passed through
+ from child breakpoint bin
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+This is a virtual property that needs manual notification
+as done with passed through current breakpoint properties
+for Adw.Window and Adw.ApplicationWindow.
+
+This allows to use signals as well as anything that
+depends on signals such as GBindings.
+
+Signed-off-by: Markus Göllnitz <camelcasenick@bewares.it>
+
+
+(cherry picked from commit ff3a1f660f776f7eba07f22b53cb52d4a9813655)
+
+Co-authored-by: Markus Göllnitz <camelcasenick@bewares.it>
+---
+ src/adw-dialog.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
+
+diff --git a/src/adw-dialog.c b/src/adw-dialog.c
+index d9f79c72..fd539bb0 100644
+--- a/src/adw-dialog.c
++++ b/src/adw-dialog.c
+@@ -180,6 +180,12 @@ enum {
+ 
+ static guint signals[SIGNAL_LAST_SIGNAL];
+ 
++static void
++child_breakpoint_bin_notify_current_breakpoint_cb (AdwDialog *self)
++{
++  g_object_notify_by_pspec (G_OBJECT (self), props[PROP_CURRENT_BREAKPOINT]);
++}
++
+ static gboolean
+ map_tick_cb (AdwDialog *self)
+ {
+@@ -1280,6 +1286,10 @@ adw_dialog_init (AdwDialog *self)
+   g_object_bind_property (self, "height-request",
+                           priv->child_breakpoint_bin, "height-request",
+                           G_BINDING_DEFAULT);
++  g_signal_connect_swapped (priv->child_breakpoint_bin,
++                            "notify::current-breakpoint",
++                            G_CALLBACK (child_breakpoint_bin_notify_current_breakpoint_cb),
++                            self);
+ }
+ 
+ static void
+-- 
+2.47.1
+

@@ -1,0 +1,65 @@
+From 9745c673667ddd39e5d80e2c79f5cbfa7819f5a3 Mon Sep 17 00:00:00 2001
+From: Alice Mikhaylenko <alicem@gnome.org>
+Date: Fri, 10 Jan 2025 02:16:39 +0400
+Subject: [PATCH 14/33] Release 1.6.3
+
+---
+ NEWS        | 24 ++++++++++++++++++++++++
+ meson.build |  4 ++--
+ 2 files changed, 26 insertions(+), 2 deletions(-)
+
+diff --git a/NEWS b/NEWS
+index 65a006e6..c6212200 100644
+--- a/NEWS
++++ b/NEWS
+@@ -1,3 +1,27 @@
++=============
++Version 1.6.3
++=============
++
++- Build
++  - Drop pre-built docs and styles
++- AdwActionRow
++  - Set accessible role to presentation for the icon
++- AdwBottomSheet
++  - Fix more criticals in dispose
++- AdwButtonRow
++  - Set accessible role to presentation for icons
++- AdwClampLayout
++  - Fix layout with multiple children
++- AdwComboRow
++  - Fix a property noficiation
++- AdwDialog
++  - Fix accessible role critical when using window-backed dialogs
++  - Handle close() before and right after present()
++- AdwHeaderBar
++  - Ignore split views outside sheets
++- AdwLengthUnit
++  - Fix pt and sp unit values when gtk-xft-dpi = -1
++
+ =============
+ Version 1.6.2
+ =============
+diff --git a/meson.build b/meson.build
+index c727df7b..054ca570 100644
+--- a/meson.build
++++ b/meson.build
+@@ -1,5 +1,5 @@
+ project('libadwaita', 'c',
+-          version: '1.6.2',
++          version: '1.6.3',
+           license: 'LGPL-2.1-or-later',
+     meson_version: '>= 0.59.0',
+   default_options: [ 'warning_level=1', 'buildtype=debugoptimized', 'c_std=gnu11' ],
+@@ -29,7 +29,7 @@ package_api_name = '@0@-@1@'.format(meson.project_name(), apiversion)
+ # to 0. When bumping the second version, set the third one to zero.
+ #
+ # A lot easier than libtool, right?
+-libversion = '0.6.2'
++libversion = '0.6.3'
+ # The so major version of the library
+ soversion = 0
+ 
+-- 
+2.47.1
+

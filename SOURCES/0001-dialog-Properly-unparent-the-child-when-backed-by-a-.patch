@@ -1,0 +1,31 @@
+From aa7ad9e1850e93346eaf2160564fe811ed12e8dd Mon Sep 17 00:00:00 2001
+From: Alice Mikhaylenko <alicem@gnome.org>
+Date: Fri, 6 Dec 2024 17:53:25 +0400
+Subject: [PATCH 01/33] dialog: Properly unparent the child when backed by a
+ window
+
+This regressed in a recent fix.
+
+
+(cherry picked from commit 16199bcb92cb5968822c27a16f84b6f7d57290e3)
+---
+ src/adw-dialog.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/src/adw-dialog.c b/src/adw-dialog.c
+index 77673f4b..9609e400 100644
+--- a/src/adw-dialog.c
++++ b/src/adw-dialog.c
+@@ -881,7 +881,8 @@ adw_dialog_dispose (GObject *object)
+     priv->floating_sheet = NULL;
+     priv->child_breakpoint_bin = NULL;
+     priv->child = NULL;
+-  } else if (priv->window) {
++  } else if (priv->child_breakpoint_bin &&
++             gtk_widget_get_parent (priv->child_breakpoint_bin) == GTK_WIDGET (self)) {
+     /* It's an window-backed dialog */
+     g_clear_pointer (&priv->child_breakpoint_bin, gtk_widget_unparent);
+     priv->child = NULL;
+-- 
+2.47.1
+

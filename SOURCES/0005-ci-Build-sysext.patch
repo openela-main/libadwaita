@@ -1,0 +1,24 @@
+From e705af63b7aed1c2e435ad68e1b8d17c097746f9 Mon Sep 17 00:00:00 2001
+From: Jamie Gravendeel <me@jamie.garden>
+Date: Fri, 13 Dec 2024 15:08:21 +0100
+Subject: [PATCH 05/33] ci: Build sysext
+
+---
+ .gitlab-ci.yml | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
+index c67c4db9..989f6295 100644
+--- a/.gitlab-ci.yml
++++ b/.gitlab-ci.yml
+@@ -1,6 +1,7 @@
+ include:
+   - project: 'gnome/citemplates'
+     file: 'flatpak/flatpak_ci_initiative.yml'
++  - component: gitlab.gnome.org/GNOME/citemplates/gnomeos-build-sysext@1.0.0-alpha.3 
+ 
+ variables:
+   APP_ID: 'org.gnome.Adwaita1.Demo'
+-- 
+2.47.1
+

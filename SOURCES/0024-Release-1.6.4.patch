@@ -1,0 +1,60 @@
+From 927f58620015a8f7153ef3b9454e4d04e4e5d8f9 Mon Sep 17 00:00:00 2001
+From: Alice Mikhaylenko <alicem@gnome.org>
+Date: Fri, 31 Jan 2025 20:57:17 +0400
+Subject: [PATCH 24/33] Release 1.6.4
+
+---
+ NEWS        | 19 +++++++++++++++++++
+ meson.build |  4 ++--
+ 2 files changed, 21 insertions(+), 2 deletions(-)
+
+diff --git a/NEWS b/NEWS
+index c6212200..55e8b493 100644
+--- a/NEWS
++++ b/NEWS
+@@ -1,3 +1,22 @@
++=============
++Version 1.6.4
++=============
++
++- AdwBreakpoint
++  - Fix to_string() with locales using comma as decimal separator
++- AdwComboRow
++  - Fix very short strings not being displayed
++- AdwDialog
++  - Fix ::closed emission with window-backed dialogs
++  - Fix a focus-related crash
++- AdwPreferencesDialog
++  - Document navigation.pop action
++- AdwTabBox, AdwTabGrid
++  - Fix scrolling to newly appearing tabs
++  - Fix a copy-paste error
++- Translation updates
++  - Italian
++
+ =============
+ Version 1.6.3
+ =============
+diff --git a/meson.build b/meson.build
+index 054ca570..9f38a5a9 100644
+--- a/meson.build
++++ b/meson.build
+@@ -1,5 +1,5 @@
+ project('libadwaita', 'c',
+-          version: '1.6.3',
++          version: '1.6.4',
+           license: 'LGPL-2.1-or-later',
+     meson_version: '>= 0.59.0',
+   default_options: [ 'warning_level=1', 'buildtype=debugoptimized', 'c_std=gnu11' ],
+@@ -29,7 +29,7 @@ package_api_name = '@0@-@1@'.format(meson.project_name(), apiversion)
+ # to 0. When bumping the second version, set the third one to zero.
+ #
+ # A lot easier than libtool, right?
+-libversion = '0.6.3'
++libversion = '0.6.4'
+ # The so major version of the library
+ soversion = 0
+ 
+-- 
+2.47.1
+

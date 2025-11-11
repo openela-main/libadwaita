@@ -1,0 +1,30 @@
+From 3311fc2f614858bb6b3da9b6b4fe7fa2de547feb Mon Sep 17 00:00:00 2001
+From: Maximiliano Sandoval <msandova@gnome.org>
+Date: Sat, 11 Jan 2025 17:48:22 +0100
+Subject: [PATCH 15/33] preferences-dialog: Document navigation.pop
+
+(cherry picked from commit 6532e51d3c842b99dcf6edcdb29f44578c57a7cf)
+---
+ src/adw-preferences-dialog.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/src/adw-preferences-dialog.c b/src/adw-preferences-dialog.c
+index fc30a3a6..59c5d469 100644
+--- a/src/adw-preferences-dialog.c
++++ b/src/adw-preferences-dialog.c
+@@ -36,6 +36,12 @@
+  * The `AdwPreferencesDialog` widget presents an application's preferences
+  * gathered into pages and groups. The preferences are searchable by the user.
+  *
++ * ## Actions
++ *
++ * `AdwPrefencesDialog` defines the `navigation.pop` action, it doesn't take any
++ * parameters and pops the current subpage from the navigation stack, equivalent
++ * to calling [method@PreferencesDialog.pop_subpage].
++ *
+  * ## CSS nodes
+  *
+  * `AdwPreferencesDialog` has a main CSS node with the name `dialog` and the
+-- 
+2.47.1
+

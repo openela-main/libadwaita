@@ -1,0 +1,39 @@
+From 5f1ae485c96fac46796ae9caf3b5a9cdb540d363 Mon Sep 17 00:00:00 2001
+From: Alice Mikhaylenko <alicem@mailbox.org>
+Date: Fri, 31 Jan 2025 16:49:05 +0000
+Subject: [PATCH 21/33] breakpoint: Make sure to_string() is locale-agnostic
+
+(cherry picked from commit a9c23bf272d7d84b12e022f7d77acdab74821e9e)
+
+Co-authored-by: Alice Mikhaylenko <alicem@gnome.org>
+---
+ src/adw-breakpoint.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/src/adw-breakpoint.c b/src/adw-breakpoint.c
+index eb2710ea..1d640335 100644
+--- a/src/adw-breakpoint.c
++++ b/src/adw-breakpoint.c
+@@ -849,6 +849,8 @@ adw_breakpoint_condition_parse (const char *str)
+ char *
+ adw_breakpoint_condition_to_string (AdwBreakpointCondition *self)
+ {
++  char buf[G_ASCII_DTOSTR_BUF_SIZE];
++
+   g_return_val_if_fail (self != NULL, NULL);
+ 
+   /* Example: "max-width: 400px" */
+@@ -886,7 +888,9 @@ adw_breakpoint_condition_to_string (AdwBreakpointCondition *self)
+       g_assert_not_reached ();
+     }
+ 
+-    return g_strdup_printf ("%s: %g%s", type, self->data.length.value, unit);
++    g_ascii_dtostr (buf, sizeof (buf), self->data.length.value);
++
++    return g_strdup_printf ("%s: %s%s", type, buf, unit);
+   }
+ 
+   /* Example: "max-aspect-ratio: 4/3" */
+-- 
+2.47.1
+

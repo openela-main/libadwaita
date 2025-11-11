@@ -1,0 +1,31 @@
+From 9a75a713c91c479986dc282e7067067e9bf34782 Mon Sep 17 00:00:00 2001
+From: Adrien Plazas <aplazas@gnome.org>
+Date: Tue, 17 Dec 2024 16:42:47 +0100
+Subject: [PATCH 10/33] combo-row: Fix property notification
+
+The wrong property was notified when setting `enable-search`.
+
+Signed-off-by: Adrien Plazas <aplazas@gnome.org>
+
+
+(cherry picked from commit d25d0cacf293b3706024163a45e2f3ad88d4f097)
+---
+ src/adw-combo-row.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/adw-combo-row.c b/src/adw-combo-row.c
+index 01bc50e1..b18ce110 100644
+--- a/src/adw-combo-row.c
++++ b/src/adw-combo-row.c
+@@ -1243,7 +1243,7 @@ adw_combo_row_set_enable_search (AdwComboRow *self,
+   gtk_editable_set_text (GTK_EDITABLE (priv->search_entry), "");
+   gtk_widget_set_visible (GTK_WIDGET (priv->search_entry), enable_search);
+ 
+-  g_object_notify_by_pspec (G_OBJECT (self), props[PROP_USE_SUBTITLE]);
++  g_object_notify_by_pspec (G_OBJECT (self), props[PROP_ENABLE_SEARCH]);
+ }
+ 
+ /**
+-- 
+2.47.1
+

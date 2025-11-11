@@ -1,0 +1,32 @@
+From 9730d31a8c323f88359f412004fb4d8e593b7f11 Mon Sep 17 00:00:00 2001
+From: Alice Mikhaylenko <alicem@mailbox.org>
+Date: Sat, 22 Mar 2025 19:18:55 +0000
+Subject: [PATCH 30/33] toast-overlay: The role is GROUP, not TAB_GROUP
+
+(cherry picked from commit 0cbccc35c7076419dfce56d198c21917f2cdc890)
+
+Co-authored-by: Zander Brown <zbrown@gnome.org>
+
+(cherry picked from commit 09074ad64a97a39a57178216903f4d7076b28e20)
+
+Co-authored-by: Alice Mikhaylenko <alicem@mailbox.org>
+---
+ src/adw-toast-overlay.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/adw-toast-overlay.c b/src/adw-toast-overlay.c
+index f75dfe4e..cea43c79 100644
+--- a/src/adw-toast-overlay.c
++++ b/src/adw-toast-overlay.c
+@@ -63,7 +63,7 @@
+  *
+  * ## Accessibility
+  *
+- * `AdwToastOverlay` uses the `GTK_ACCESSIBLE_ROLE_TAB_GROUP` role.
++ * `AdwToastOverlay` uses the [enum@Gtk.AccessibleRole.GROUP] role.
+  */
+ 
+ typedef struct {
+-- 
+2.47.1
+

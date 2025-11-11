@@ -1,0 +1,118 @@
+From e711e7cd11ecdce824da8a29f8b9c51388bd307e Mon Sep 17 00:00:00 2001
+From: Alice Mikhaylenko <alicem@gnome.org>
+Date: Fri, 6 Dec 2024 18:27:33 +0400
+Subject: [PATCH 02/33] dialog: Handle close() before and right after present()
+
+Fixes https://gitlab.gnome.org/GNOME/libadwaita/-/issues/970
+
+
+(cherry picked from commit 9bc2b37232d19ac7e6d3bf88076b49f07b1ab91a)
+---
+ src/adw-bottom-sheet.c   | 13 ++++++++++++-
+ src/adw-dialog.c         | 11 +++++++++++
+ src/adw-floating-sheet.c | 14 +++++++++++++-
+ 3 files changed, 36 insertions(+), 2 deletions(-)
+
+diff --git a/src/adw-bottom-sheet.c b/src/adw-bottom-sheet.c
+index d5876ac2..a9011eb0 100644
+--- a/src/adw-bottom-sheet.c
++++ b/src/adw-bottom-sheet.c
+@@ -137,6 +137,8 @@ struct _AdwBottomSheet
+   gboolean can_open;
+   gboolean can_close;
+ 
++  gboolean has_been_open;
++
+   AdwSwipeTracker *swipe_tracker;
+   gboolean swipe_detected;
+   gboolean swipe_active;
+@@ -1550,8 +1552,17 @@ adw_bottom_sheet_set_open (AdwBottomSheet *self,
+ 
+   open = !!open;
+ 
+-  if (self->open == open)
++  if (self->open == open) {
++    if (!self->has_been_open && !open) {
++      if (self->closing_callback)
++        self->closing_callback (self, self->user_data);
++
++      if (self->closed_callback)
++        self->closed_callback (self, self->user_data);
++    }
++
+     return;
++  }
+ 
+   self->open = open;
+ 
+diff --git a/src/adw-dialog.c b/src/adw-dialog.c
+index 9609e400..c045a944 100644
+--- a/src/adw-dialog.c
++++ b/src/adw-dialog.c
+@@ -185,6 +185,12 @@ map_tick_cb (AdwDialog *self)
+ {
+   AdwDialogPrivate *priv = adw_dialog_get_instance_private (self);
+ 
++  if (priv->force_closing) {
++    priv->tick_cb_id = 0;
++    priv->ticks = 0;
++    return G_SOURCE_REMOVE;
++  }
++
+   priv->ticks++;
+ 
+   /* If we're showing a bottom sheet, it has changed after the initial map,
+@@ -1877,6 +1883,11 @@ adw_dialog_close (AdwDialog *self)
+ 
+   priv = adw_dialog_get_instance_private (self);
+ 
++  if (!gtk_widget_get_parent (GTK_WIDGET (self))) {
++    g_critical ("Trying to close %s %p that's not presented", G_OBJECT_TYPE_NAME (self), self);
++    return FALSE;
++  }
++
+   if (!priv->can_close) {
+     g_signal_emit (self, signals[SIGNAL_CLOSE_ATTEMPT], 0);
+     return FALSE;
+diff --git a/src/adw-floating-sheet.c b/src/adw-floating-sheet.c
+index 341fa442..399fc392 100644
+--- a/src/adw-floating-sheet.c
++++ b/src/adw-floating-sheet.c
+@@ -45,6 +45,8 @@ struct _AdwFloatingSheet
+   AdwAnimation *open_animation;
+   double progress;
+ 
++  gboolean has_been_open;
++
+   GFunc closing_callback;
+   GFunc closed_callback;
+   gpointer user_data;
+@@ -423,14 +425,24 @@ adw_floating_sheet_set_open (AdwFloatingSheet *self,
+ 
+   open = !!open;
+ 
+-  if (self->open == open)
++  if (self->open == open) {
++    if (!self->has_been_open && !open) {
++      if (self->closing_callback)
++        self->closing_callback (self, self->user_data);
++
++      if (self->closed_callback)
++        self->closed_callback (self, self->user_data);
++    }
++
+     return;
++  }
+ 
+   self->open = open;
+ 
+   if (open) {
+     gtk_widget_set_child_visible (self->dimming, TRUE);
+     gtk_widget_set_child_visible (self->sheet_bin, TRUE);
++    self->has_been_open = true;
+   }
+ 
+   gtk_widget_set_can_target (self->dimming, open);
+-- 
+2.47.1
+

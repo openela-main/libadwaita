@@ -1,0 +1,49 @@
+From e368a3f22e11144f7928dd7f23d80cf4e2e8d681 Mon Sep 17 00:00:00 2001
+From: Alice Mikhaylenko <alicem@mailbox.org>
+Date: Sat, 15 Mar 2025 14:04:24 +0000
+Subject: [PATCH 29/33] shadow-helper: Avoid needlessly reassigning CSS classes
+
+Signed-off-by: Sergey Bugaev <bugaevc@gmail.com>
+
+
+(cherry picked from commit ff083435bbf8a2f4ca6fc8ebcbee8d26717ba942)
+
+Co-authored-by: Sergey Bugaev <bugaevc@gmail.com>
+
+(cherry picked from commit 7b57894b81331ccff302a400e677761afca84ffd)
+
+Co-authored-by: Alice Mikhaylenko <alicem@mailbox.org>
+---
+ src/adw-shadow-helper.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
+
+diff --git a/src/adw-shadow-helper.c b/src/adw-shadow-helper.c
+index 6f65ccea..7b7ec6ea 100644
+--- a/src/adw-shadow-helper.c
++++ b/src/adw-shadow-helper.c
+@@ -20,6 +20,9 @@ struct _AdwShadowHelper
+   GtkWidget *shadow;
+   GtkWidget *border;
+   GtkWidget *outline;
++
++  GtkPanDirection last_direction;
++  gboolean last_direction_valid;
+ };
+ 
+ G_DEFINE_FINAL_TYPE (AdwShadowHelper, adw_shadow_helper, G_TYPE_OBJECT);
+@@ -163,6 +166,12 @@ set_style_classes (AdwShadowHelper *self,
+ {
+   const char *classes[2];
+ 
++  /* Avoid needlessly reassigning the CSS classes. */
++  if (self->last_direction_valid && self->last_direction == direction)
++    return;
++  self->last_direction_valid = TRUE;
++  self->last_direction = direction;
++
+   switch (direction) {
+   case GTK_PAN_DIRECTION_LEFT:
+     classes[0] = "left";
+-- 
+2.47.1
+

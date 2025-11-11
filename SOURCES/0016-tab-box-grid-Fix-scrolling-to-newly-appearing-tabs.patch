@@ -1,0 +1,81 @@
+From 5789a82ebca690d49cda7683737be975baa80572 Mon Sep 17 00:00:00 2001
+From: Alice Mikhaylenko <alicem@gnome.org>
+Date: Fri, 17 Jan 2025 20:09:17 +0400
+Subject: [PATCH 16/33] tab-box/grid: Fix scrolling to newly appearing tabs
+
+Fixes https://gitlab.gnome.org/GNOME/libadwaita/-/issues/964
+
+
+(cherry picked from commit fcb732ab9d804389b3eb6ed2e2d46584b3c02cbc)
+---
+ src/adw-tab-box.c  | 18 +++++++++++++++---
+ src/adw-tab-grid.c | 15 ++++++++++++---
+ 2 files changed, 27 insertions(+), 6 deletions(-)
+
+diff --git a/src/adw-tab-box.c b/src/adw-tab-box.c
+index 129f81a3..e0111fba 100644
+--- a/src/adw-tab-box.c
++++ b/src/adw-tab-box.c
+@@ -942,6 +942,9 @@ scroll_to_tab_full (AdwTabBox *self,
+   if (info->appear_animation)
+     tab_width = info->final_width;
+ 
++  if (tab_width == 0)
++    tab_width = predict_tab_width (self, info, FALSE);
++
+   value = gtk_adjustment_get_value (self->adjustment);
+   page_size = gtk_adjustment_get_page_size (self->adjustment);
+ 
+@@ -1904,10 +1907,19 @@ page_attached_cb (AdwTabBox  *self,
+ 
+   adw_animation_play (info->appear_animation);
+ 
+-  if (page == adw_tab_view_get_selected_page (self->view))
++  if (page == adw_tab_view_get_selected_page (self->view)) {
+     adw_tab_box_select_page (self, page);
+-  else
+-    scroll_to_tab_full (self, info, -1, OPEN_ANIMATION_DURATION, TRUE);
++  } else {
++    int pos = -1;
++
++    if (l && l->next && l->next->data) {
++      TabInfo *next_info = l->next->data;
++
++      pos = next_info->final_pos;
++    }
++
++    scroll_to_tab_full (self, info, pos, OPEN_ANIMATION_DURATION, TRUE);
++  }
+ 
+   update_separators (self);
+ }
+diff --git a/src/adw-tab-grid.c b/src/adw-tab-grid.c
+index 1cc88e37..35b0c018 100644
+--- a/src/adw-tab-grid.c
++++ b/src/adw-tab-grid.c
+@@ -1918,10 +1918,19 @@ page_attached_cb (AdwTabGrid *self,
+ 
+   calculate_tab_layout (self);
+ 
+-  if (page == adw_tab_view_get_selected_page (self->view))
++  if (page == adw_tab_view_get_selected_page (self->view)) {
+     adw_tab_grid_select_page (self, page);
+-  else
+-    scroll_to_tab_full (self, info, -1, OPEN_ANIMATION_DURATION, TRUE);
++  } else {
++    int pos = -1;
++
++    if (l && l->next && l->next->data) {
++      TabInfo *next_info = l->next->data;
++
++      pos = next_info->final_y;
++
++      scroll_to_tab_full (self, info, pos, OPEN_ANIMATION_DURATION, TRUE);
++    }
++  }
+ }
+ 
+ /* Closing */
+-- 
+2.47.1
+

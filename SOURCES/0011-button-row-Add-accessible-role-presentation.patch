@@ -1,0 +1,36 @@
+From e2121248756cb544a490a48230c92d7469d1284e Mon Sep 17 00:00:00 2001
+From: Maximiliano Sandoval <msandova@gnome.org>
+Date: Mon, 23 Dec 2024 21:09:34 +0100
+Subject: [PATCH 11/33] button-row: Add accessible-role=presentation
+
+To the images in the row.
+
+
+(cherry picked from commit bfacd7729cae143c4e4e7343df4e044c1d4e9f80)
+---
+ src/adw-button-row.ui | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/src/adw-button-row.ui b/src/adw-button-row.ui
+index 0791963e..cb09bf59 100644
+--- a/src/adw-button-row.ui
++++ b/src/adw-button-row.ui
+@@ -16,6 +16,7 @@
+         <child>
+           <object class="GtkImage" id="start_image">
+             <property name="icon-name" bind-source="AdwButtonRow" bind-property="start-icon-name" bind-flags="sync-create"/>
++            <property name="accessible-role">presentation</property>
+             <binding name="visible">
+               <closure function="string_is_not_empty" type="gboolean">
+                 <lookup name="icon-name">start_image</lookup>
+@@ -50,6 +51,7 @@
+         <child>
+           <object class="GtkImage" id="end_image">
+             <property name="icon-name" bind-source="AdwButtonRow" bind-property="end-icon-name" bind-flags="sync-create"/>
++            <property name="accessible-role">presentation</property>
+             <binding name="visible">
+               <closure function="string_is_not_empty" type="gboolean">
+                 <lookup name="icon-name">end_image</lookup>
+-- 
+2.47.1
+

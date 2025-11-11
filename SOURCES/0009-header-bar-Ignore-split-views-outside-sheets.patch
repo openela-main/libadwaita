@@ -1,0 +1,30 @@
+From 8edf7b912425a8f2c5fa79d1630233547d74ebea Mon Sep 17 00:00:00 2001
+From: Alice Mikhaylenko <alicem@gnome.org>
+Date: Mon, 16 Dec 2024 23:17:36 +0400
+Subject: [PATCH 09/33] header-bar: Ignore split views outside sheets
+
+Otherwise we risk missing the close button if, say, it's on the left and
+the sheet is in the right pane - like in libadwaita demo.
+
+
+(cherry picked from commit c7107e10384eea4b48b7cd543cf90b9c45e63596)
+---
+ src/adw-header-bar.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/adw-header-bar.c b/src/adw-header-bar.c
+index 65b8b8f9..40609dd5 100644
+--- a/src/adw-header-bar.c
++++ b/src/adw-header-bar.c
+@@ -535,7 +535,7 @@ adw_header_bar_root (GtkWidget *widget)
+     GtkWidget *split_view = NULL;
+     gboolean is_sidebar = FALSE;
+ 
+-    if (GTK_IS_NATIVE (parent))
++    if (GTK_IS_NATIVE (parent) || parent == self->sheet)
+       break;
+ 
+     if (ADW_IS_NAVIGATION_SPLIT_VIEW (parent)) {
+-- 
+2.47.1
+

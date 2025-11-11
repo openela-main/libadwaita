@@ -1,0 +1,38 @@
+From b4e07684b02db371ea348b1b90f56391c01a1d8c Mon Sep 17 00:00:00 2001
+From: Alice Mikhaylenko <alicem@mailbox.org>
+Date: Sat, 15 Mar 2025 14:00:37 +0000
+Subject: [PATCH 28/33] meson: Don't install internal static library
+
+It's only used for tests. Now that it's always static there should never
+be any need to install it, even for installed tests, which AFAICT
+libadwaita doesn't even have.
+
+
+(cherry picked from commit c4b2760bc8bb95a2039dfad97ad27f592ed05c47)
+
+Co-authored-by: Jan Alexander Steffens (heftig) <heftig@archlinux.org>
+
+(cherry picked from commit 6467d119dacb8441531a6dfece003a62c8175f60)
+
+Co-authored-by: Alice Mikhaylenko <alicem@mailbox.org>
+---
+ src/meson.build | 2 --
+ 1 file changed, 2 deletions(-)
+
+diff --git a/src/meson.build b/src/meson.build
+index a27f14f0..f3205008 100644
+--- a/src/meson.build
++++ b/src/meson.build
+@@ -425,9 +425,7 @@ if get_option('tests')
+                    c_args: libadwaita_c_args,
+              dependencies: libadwaita_deps,
+       include_directories: [ root_inc, src_inc ],
+-                  install: true,
+                 link_args: libadwaita_link_args,
+-              install_dir: adwaita_libdir,
+   )
+ 
+   libadwaita_internal_dep = declare_dependency(
+-- 
+2.47.1
+

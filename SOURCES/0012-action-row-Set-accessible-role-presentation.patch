@@ -1,0 +1,28 @@
+From 067e1a5e4e31ecb6358acbddc436e2bc40dde87e Mon Sep 17 00:00:00 2001
+From: Maximiliano Sandoval <msandova@gnome.org>
+Date: Tue, 24 Dec 2024 13:09:12 +0100
+Subject: [PATCH 12/33] action-row: Set accessible-role=presentation
+
+On the prefix image.
+
+
+(cherry picked from commit a99fb1fb2f8c7bb15774bd8978a16ea0aaa636fd)
+---
+ src/adw-action-row.ui | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/src/adw-action-row.ui b/src/adw-action-row.ui
+index 71bb635b..5ef97c3c 100644
+--- a/src/adw-action-row.ui
++++ b/src/adw-action-row.ui
+@@ -30,6 +30,7 @@
+               </closure>
+             </binding>
+             <property name="valign">center</property>
++            <property name="accessible-role">presentation</property>
+             <style>
+               <class name="icon"/>
+             </style>
+-- 
+2.47.1
+

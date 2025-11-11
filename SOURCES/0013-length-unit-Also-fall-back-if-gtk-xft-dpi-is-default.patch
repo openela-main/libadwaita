@@ -1,0 +1,32 @@
+From a712d6b4ef7ac4aaa7d38c87940b75d03906e05c Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Florian=20=22sp1rit=22=E2=80=8B?= <sp1rit@disroot.org>
+Date: Fri, 27 Dec 2024 21:43:37 +0100
+Subject: [PATCH 13/33] length-unit: Also fall back if gtk-xft-dpi is default
+ value
+
+The check introduced in a7738a4d2 only uses the fallback value if
+gtk-xft-dpi is zero, but by default (if a backend doesn't define it) it
+is -1.
+
+
+(cherry picked from commit 9759d3fd81129608dd78116001928f2aed974ead)
+---
+ src/adw-length-unit.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/adw-length-unit.c b/src/adw-length-unit.c
+index 136e720c..0c1268b2 100644
+--- a/src/adw-length-unit.c
++++ b/src/adw-length-unit.c
+@@ -36,7 +36,7 @@ get_dpi (GtkSettings *settings)
+ 
+   g_object_get (settings, "gtk-xft-dpi", &xft_dpi, NULL);
+ 
+-  if (xft_dpi == 0)
++  if (xft_dpi <= 0)
+     xft_dpi = 96 * PANGO_SCALE;
+ 
+   return xft_dpi / PANGO_SCALE;
+-- 
+2.47.1
+

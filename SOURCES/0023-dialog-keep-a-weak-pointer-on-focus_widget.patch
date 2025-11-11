@@ -1,0 +1,48 @@
+From 042176c44611f0a8584e23d5298211a2a521629b Mon Sep 17 00:00:00 2001
+From: Alice Mikhaylenko <alicem@mailbox.org>
+Date: Fri, 31 Jan 2025 17:11:31 +0000
+Subject: [PATCH 23/33] dialog: keep a weak pointer on focus_widget
+
+The act of unfocusing the widget may cause it to be destroyed.
+
+See: https://gitlab.gnome.org/GNOME/libadwaita/-/merge_requests/1386#note_2324067
+
+
+(cherry picked from commit 40b9e3c9703d4e515145778400bdfe59dc7c4a62)
+
+Co-authored-by: Michael Catanzaro <mcatanzaro@redhat.com>
+---
+ src/adw-dialog.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/src/adw-dialog.c b/src/adw-dialog.c
+index 7cd2a454..d9f79c72 100644
+--- a/src/adw-dialog.c
++++ b/src/adw-dialog.c
+@@ -312,11 +312,14 @@ set_focus (AdwDialog *self,
+                                           focus_widget_notify_visible_cb, self);
+     g_signal_handlers_disconnect_by_func (priv->focus_widget,
+                                           focus_widget_notify_parent_cb, self);
++    g_clear_weak_pointer (&priv->focus_widget);
+   }
+ 
+   priv->focus_widget = focus;
+ 
+   if (priv->focus_widget) {
++    g_object_add_weak_pointer (G_OBJECT (priv->focus_widget), (gpointer *) &priv->focus_widget);
++
+     g_signal_connect_swapped (priv->focus_widget, "hide",
+                               G_CALLBACK (unset_focus_widget), self);
+     g_signal_connect_swapped (priv->focus_widget, "notify::visible",
+@@ -867,7 +870,7 @@ adw_dialog_dispose (GObject *object)
+                                           focus_widget_notify_visible_cb, self);
+     g_signal_handlers_disconnect_by_func (priv->focus_widget,
+                                           focus_widget_notify_parent_cb, self);
+-    priv->focus_widget = NULL;
++    g_clear_weak_pointer (&priv->focus_widget);
+   }
+ 
+   g_clear_weak_pointer (&priv->last_focus);
+-- 
+2.47.1
+
