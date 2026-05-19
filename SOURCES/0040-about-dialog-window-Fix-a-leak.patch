@@ -1,0 +1,37 @@
+From dd47fef345e03208ab28ae0a93da1978291632e8 Mon Sep 17 00:00:00 2001
+From: Alice Mikhaylenko <alicem@gnome.org>
+Date: Sat, 28 Jun 2025 21:58:48 +0400
+Subject: [PATCH] about-dialog/window: Fix a leak
+
+---
+ src/adw-about-dialog.c | 1 +
+ src/adw-about-window.c | 1 +
+ 2 files changed, 2 insertions(+)
+
+diff --git a/src/adw-about-dialog.c b/src/adw-about-dialog.c
+index bf31277c..33fd89ca 100644
+--- a/src/adw-about-dialog.c
++++ b/src/adw-about-dialog.c
+@@ -358,6 +358,7 @@ static void
+ free_legal_section (LegalSection *section)
+ {
+   g_free (section->title);
++  g_free (section->copyright);
+   g_free (section->license);
+   g_free (section);
+ }
+diff --git a/src/adw-about-window.c b/src/adw-about-window.c
+index 9d0a5058..f263b23d 100644
+--- a/src/adw-about-window.c
++++ b/src/adw-about-window.c
+@@ -358,6 +358,7 @@ static void
+ free_legal_section (LegalSection *section)
+ {
+   g_free (section->title);
++  g_free (section->copyright);
+   g_free (section->license);
+   g_free (section);
+ }
+-- 
+2.47.1
+

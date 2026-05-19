@@ -1,0 +1,73 @@
+From 42e338f7bbae14a108f0444366711ce31afa88c2 Mon Sep 17 00:00:00 2001
+From: Alice Mikhaylenko <alicem@gnome.org>
+Date: Sat, 2 Aug 2025 01:31:27 +0400
+Subject: [PATCH 01/18] alert-dialog: emit ::response when cancelled
+
+This ensures we got through the same teardown sequence as if the user
+had actually interacted with the dialogue, and avoids the dialogue
+living in the host longer than expected.
+
+
+(cherry picked from commit e387a1a920e1f3697707dc50d36297125d835b01)
+
+Co-authored-by: Zander Brown <zbrown@gnome.org>
+
+(cherry picked from commit d72bfccbcb6189830a3d4b17a62491e8dad6562c)
+
+Co-authored-by: Alice Mikhaylenko <alicem@gnome.org>
+---
+ src/adw-alert-dialog.c | 18 +++++++++++++-----
+ 1 file changed, 13 insertions(+), 5 deletions(-)
+
+diff --git a/src/adw-alert-dialog.c b/src/adw-alert-dialog.c
+index 198cd00f..24347cb8 100644
+--- a/src/adw-alert-dialog.c
++++ b/src/adw-alert-dialog.c
+@@ -264,22 +264,29 @@ find_response (AdwAlertDialog *self,
+   return g_hash_table_lookup (priv->id_to_response, id);
+ }
+ 
+-static void
+-button_clicked_cb (ResponseInfo *info)
++
++static inline void
++emit_response (AdwAlertDialog *self, GQuark response)
+ {
+-  AdwAlertDialog *self = info->dialog;
+   AdwAlertDialogPrivate *priv = adw_alert_dialog_get_instance_private (self);
+ 
+   g_object_ref (self);
+   priv->block_close_response = TRUE;
+ 
+   adw_dialog_close (ADW_DIALOG (self));
+-  g_signal_emit (self, signals[SIGNAL_RESPONSE], info->id, g_quark_to_string (info->id));
++  g_signal_emit (self, signals[SIGNAL_RESPONSE], response, g_quark_to_string (response));
+ 
+   priv->block_close_response = FALSE;
+   g_object_unref (self);
+ }
+ 
++
++static void
++button_clicked_cb (ResponseInfo *info)
++{
++  emit_response (info->dialog, info->id);
++}
++
+ static GtkWidget *
+ create_response_button (AdwAlertDialog *self,
+                         ResponseInfo   *info)
+@@ -2447,8 +2454,9 @@ choose_cancelled_cb (GCancellable *cancellable,
+                      GTask        *task)
+ {
+   AdwAlertDialog *self = g_task_get_source_object (task);
++  AdwAlertDialogPrivate *priv = adw_alert_dialog_get_instance_private (self);
+ 
+-  choose_response_cb (self, adw_alert_dialog_get_close_response (self), task);
++  emit_response (self, priv->close_response);
+ }
+ 
+ /**
+-- 
+2.51.1
+

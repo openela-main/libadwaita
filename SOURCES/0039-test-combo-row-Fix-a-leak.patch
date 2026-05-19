@@ -1,0 +1,29 @@
+From 45ab0dcbcae0b354639b2a955baf8621fcdef42b Mon Sep 17 00:00:00 2001
+From: Alice Mikhaylenko <alicem@gnome.org>
+Date: Sat, 28 Jun 2025 21:57:44 +0400
+Subject: [PATCH] test-combo-row: Fix a leak
+
+---
+ tests/test-combo-row.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/tests/test-combo-row.c b/tests/test-combo-row.c
+index 494ff67a..af20d4e6 100644
+--- a/tests/test-combo-row.c
++++ b/tests/test-combo-row.c
+@@ -39,10 +39,12 @@ test_adw_combo_row_set_for_enum (void)
+   item = g_list_model_get_item (model, 0);
+   g_assert_true (ADW_IS_ENUM_LIST_ITEM (item));
+   g_assert_cmpstr (adw_enum_list_item_get_nick (item), ==, "horizontal");
++  g_object_unref (item);
+ 
+   item = g_list_model_get_item (model, 1);
+   g_assert_true (ADW_IS_ENUM_LIST_ITEM (item));
+   g_assert_cmpstr (adw_enum_list_item_get_nick (item), ==, "vertical");
++  g_object_unref (item);
+ 
+   g_assert_finalize_object (row);
+ }
+-- 
+2.47.1
+

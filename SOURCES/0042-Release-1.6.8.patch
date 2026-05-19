@@ -1,0 +1,32 @@
+From a004dff479d8f21a0654596029b0282ea7d2b0e0 Mon Sep 17 00:00:00 2001
+From: Alice Mikhaylenko <alicem@gnome.org>
+Date: Sun, 29 Jun 2025 00:17:54 +0400
+Subject: [PATCH] Release 1.6.8
+
+---
+ meson.build |  4 ++--
+ 2 files changed, 17 insertions(+), 2 deletions(-)
+
+diff --git a/meson.build b/meson.build
+index ef5dc3e4..8a733039 100644
+--- a/meson.build
++++ b/meson.build
+@@ -1,5 +1,5 @@
+ project('libadwaita', 'c',
+-          version: '1.6.6',
++          version: '1.6.8',
+           license: 'LGPL-2.1-or-later',
+     meson_version: '>= 0.59.0',
+   default_options: [ 'warning_level=1', 'buildtype=debugoptimized', 'c_std=gnu11' ],
+@@ -29,7 +29,7 @@ package_api_name = '@0@-@1@'.format(meson.project_name(), apiversion)
+ # to 0. When bumping the second version, set the third one to zero.
+ #
+ # A lot easier than libtool, right?
+-libversion = '0.6.6'
++libversion = '0.6.8'
+ # The so major version of the library
+ soversion = 0
+ 
+-- 
+2.47.1
+

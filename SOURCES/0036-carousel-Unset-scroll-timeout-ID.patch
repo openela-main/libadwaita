@@ -1,0 +1,70 @@
+From 29d5df78336a6c721596581facf5f2d0bec05c18 Mon Sep 17 00:00:00 2001
+From: Alice Mikhaylenko <alicem@mailbox.org>
+Date: Mon, 26 May 2025 23:49:30 +0400
+Subject: [PATCH] carousel: Unset scroll timeout ID
+
+Otherwise we try to to remove it when it's already gone.
+
+While we're there, use the ID as the flag.
+
+
+(cherry picked from commit ba4e47e14fb074e09bfeac648f122f46fd797c4f)
+
+Co-authored-by: Alice Mikhaylenko <alicem@gnome.org>
+
+(cherry picked from commit 693dd15ae0b7315b33d48ced8bf012cbac102d14)
+
+Co-authored-by: Alice Mikhaylenko <alicem@mailbox.org>
+---
+ src/adw-carousel.c | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
+
+diff --git a/src/adw-carousel.c b/src/adw-carousel.c
+index 1010d464..a026f3c2 100644
+--- a/src/adw-carousel.c
++++ b/src/adw-carousel.c
+@@ -77,7 +77,6 @@ struct _AdwCarousel
+   double position_shift;
+ 
+   guint scroll_timeout_id;
+-  gboolean can_scroll;
+   gboolean is_being_allocated;
+ };
+ 
+@@ -468,7 +467,7 @@ update_orientation (AdwCarousel *self)
+ static void
+ scroll_timeout_cb (AdwCarousel *self)
+ {
+-  self->can_scroll = TRUE;
++  self->scroll_timeout_id = 0;
+ }
+ 
+ static gboolean
+@@ -487,7 +486,7 @@ scroll_cb (AdwCarousel              *self,
+   if (!self->allow_scroll_wheel)
+     return GDK_EVENT_PROPAGATE;
+ 
+-  if (!self->can_scroll)
++  if (self->scroll_timeout_id > 0)
+     return GDK_EVENT_PROPAGATE;
+ 
+   if (!adw_carousel_get_interactive (self))
+@@ -532,7 +531,6 @@ scroll_cb (AdwCarousel              *self,
+ 
+   scroll_to (self, adw_carousel_get_nth_page (self, index), 0);
+ 
+-  self->can_scroll = FALSE;
+   self->scroll_timeout_id =
+    g_timeout_add_once (SCROLL_TIMEOUT_DURATION,
+                        (GSourceOnceFunc) scroll_timeout_cb,
+@@ -1047,7 +1045,6 @@ adw_carousel_init (AdwCarousel *self)
+ 
+   self->orientation = GTK_ORIENTATION_HORIZONTAL;
+   self->reveal_duration = 0;
+-  self->can_scroll = TRUE;
+ 
+   self->tracker = adw_swipe_tracker_new (ADW_SWIPEABLE (self));
+   adw_swipe_tracker_set_allow_mouse_drag (self->tracker, TRUE);
+-- 
+2.47.1
+

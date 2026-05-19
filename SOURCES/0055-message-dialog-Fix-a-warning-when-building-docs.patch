@@ -1,0 +1,32 @@
+From bdf0fa3aa5a9a1755d8f48db8ea4efeddba6d624 Mon Sep 17 00:00:00 2001
+From: Alice <alicem@gnome.org>
+Date: Fri, 12 Sep 2025 23:34:45 +0400
+Subject: [PATCH 13/18] message-dialog: Fix a warning when building docs
+
+(cherry picked from commit 108f2943ff6c73e0fdf8cae20a51cedeb53515dd)
+
+Co-authored-by: Alice Mikhaylenko <alicem@gnome.org>
+
+(cherry picked from commit 09199c01435b94dcb702f3ce5461552ceb38d497)
+
+Co-authored-by: Alice Mikhaylenko <alicem@gnome.org>
+---
+ src/adw-message-dialog.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/adw-message-dialog.c b/src/adw-message-dialog.c
+index 5845dc91..78557325 100644
+--- a/src/adw-message-dialog.c
++++ b/src/adw-message-dialog.c
+@@ -2393,7 +2393,7 @@ adw_message_dialog_get_default_response (AdwMessageDialog *self)
+  * If not set, the default widget will not be set, and the last added response
+  * will be focused by default.
+  *
+- * See [property@Gtk.Widget:default-widget].
++ * See [property@Gtk.Window:default-widget].
+  *
+  * Since: 1.2
+  * Deprecated: 1.6: Use [class@AlertDialog].
+-- 
+2.51.1
+

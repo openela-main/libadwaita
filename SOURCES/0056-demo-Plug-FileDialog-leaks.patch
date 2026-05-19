@@ -1,0 +1,41 @@
+From 9e832f81ba390af42e8969858a2b4c18b697ae6f Mon Sep 17 00:00:00 2001
+From: Alice <alicem@gnome.org>
+Date: Fri, 12 Sep 2025 23:35:06 +0400
+Subject: [PATCH 14/18] demo: Plug FileDialog leaks
+
+(cherry picked from commit 0aba6a51aab669e2b2db92fe24fac46d3d12cac6)
+
+Co-authored-by: Maximiliano Sandoval <msandova@gnome.org>
+
+(cherry picked from commit fa735f0f84370c3d049786d78ebca57826ba8866)
+
+Co-authored-by: Alice Mikhaylenko <alicem@gnome.org>
+---
+ demo/pages/avatar/adw-demo-page-avatar.c | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/demo/pages/avatar/adw-demo-page-avatar.c b/demo/pages/avatar/adw-demo-page-avatar.c
+index 2bc9da39..b295df4c 100644
+--- a/demo/pages/avatar/adw-demo-page-avatar.c
++++ b/demo/pages/avatar/adw-demo-page-avatar.c
+@@ -134,6 +134,8 @@ avatar_open_cb (AdwDemoPageAvatar *self)
+                         NULL,
+                         (GAsyncReadyCallback) avatar_open_dialog_cb,
+                         self);
++
++  g_object_unref (dialog);
+ }
+ 
+ static void
+@@ -176,6 +178,8 @@ avatar_save_cb (AdwDemoPageAvatar *self)
+                         NULL,
+                         (GAsyncReadyCallback) avatar_save_dialog_cb,
+                         self);
++
++  g_object_unref (dialog);
+ }
+ 
+ static void
+-- 
+2.51.1
+

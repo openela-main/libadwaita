@@ -1,0 +1,50 @@
+From ed2d253ee1477ccf72feb9204f980ce79ef80546 Mon Sep 17 00:00:00 2001
+From: Alice Mikhaylenko <alicem@gnome.org>
+Date: Sat, 28 Jun 2025 22:45:54 +0400
+Subject: [PATCH] toast-overlay: fix assertion failure when showing toast while
+ hiding it
+
+This is a weird scenario, but if we show a toast while its hide
+animation is still playing, then we crash.
+
+I've failed to reproduce this scenario and I've also failed to quickly
+write an API test, though it really ought to be possible, so this is a
+speculative fix. But it looks right.
+
+Probably fixes #997
+
+
+(cherry picked from commit 6db9f4d61c30b4465502e591bdbadaaee8e32a73)
+
+Co-authored-by: Michael Catanzaro <mcatanzaro@redhat.com>
+
+(cherry picked from commit 71995bd59b0bba0dbf26e7d02fe54b67002394e0)
+
+Co-authored-by: Alice Mikhaylenko <alicem@gnome.org>
+---
+ src/adw-toast-overlay.c | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
+
+diff --git a/src/adw-toast-overlay.c b/src/adw-toast-overlay.c
+index cea43c79..46567b30 100644
+--- a/src/adw-toast-overlay.c
++++ b/src/adw-toast-overlay.c
+@@ -244,7 +244,14 @@ show_toast (AdwToastOverlay *self,
+   const char *title, *button_label;
+   char *announcement;
+ 
+-  g_assert (!info->widget);
++  if (info->widget) {
++    /* The toast's hide animation is currently playing. Complete it immediately.
++     * hide_done_cb() will clear the widget.
++     */
++    g_assert (info->hide_animation);
++    adw_animation_skip (info->hide_animation);
++    g_assert (!info->widget);
++  }
+ 
+   self->current_toast = info;
+ 
+-- 
+2.47.1
+

@@ -1,0 +1,41 @@
+From b5e309e6097a10676ef22d2bec4d82eb5f7a0f84 Mon Sep 17 00:00:00 2001
+From: Alice Mikhaylenko <alicem@gnome.org>
+Date: Sat, 2 Aug 2025 01:32:30 +0400
+Subject: [PATCH 04/18] dialog: Don't always try to check 'can-focus' on bin
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+The bin doesn't exist when the dialog is presented as a window.
+
+This fixes a type sanity check in gtk_widget_get_can_focus() when called
+from adw_dialog_set_focus().
+
+
+(cherry picked from commit 401a870dd062572d8f72302a005f91a8ca7b31ed)
+
+Co-authored-by: Jonas Ådahl <jadahl@gmail.com>
+
+(cherry picked from commit 4118a9195151979dad0d5227d141d87e13862f1a)
+
+Co-authored-by: Alice Mikhaylenko <alicem@gnome.org>
+---
+ src/adw-dialog.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/adw-dialog.c b/src/adw-dialog.c
+index fd539bb0..be62ae17 100644
+--- a/src/adw-dialog.c
++++ b/src/adw-dialog.c
+@@ -1778,7 +1778,7 @@ adw_dialog_set_focus (AdwDialog *self,
+   if (priv->focus_widget == focus)
+     return;
+ 
+-  if (!gtk_widget_get_can_focus (priv->bin)) {
++  if (!priv->bin || !gtk_widget_get_can_focus (priv->bin)) {
+     g_set_weak_pointer (&priv->last_focus, priv->focus_widget);
+     set_focus (self, focus);
+     return;
+-- 
+2.51.1
+

@@ -1,0 +1,35 @@
+From ada7cff31b8573766eb41540bd6d623bd20e6fd4 Mon Sep 17 00:00:00 2001
+From: Alice Mikhaylenko <alicem@mailbox.org>
+Date: Sat, 24 May 2025 04:30:37 +0400
+Subject: [PATCH] accent-color: Move yellow/green boundary a bit
+
+Otherwise we risk colors like #78a50e being yellow instead of green.
+
+
+(cherry picked from commit 54b1ecd732f71c14d5c11dc0ade39a661995fb02)
+
+Co-authored-by: Alice Mikhaylenko <alicem@gnome.org>
+
+(cherry picked from commit baa735b6cf56d3ae7926dbe0022c433862b91239)
+
+Co-authored-by: Alice Mikhaylenko <alicem@mailbox.org>
+---
+ src/adw-accent-color.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/adw-accent-color.c b/src/adw-accent-color.c
+index f49b63b1..b6bdc5b8 100644
+--- a/src/adw-accent-color.c
++++ b/src/adw-accent-color.c
+@@ -183,7 +183,7 @@ adw_accent_color_nearest_from_rgba (GdkRGBA *original_color)
+   if (h > 175)
+     return ADW_ACCENT_COLOR_TEAL;
+ 
+-  if (h > 130)
++  if (h > 115)
+     return ADW_ACCENT_COLOR_GREEN;
+ 
+   if (h > 75.5)
+-- 
+2.47.1
+

@@ -1,0 +1,73 @@
+From 47d65e0e7e9ac1b869ad9e2125d67f7db88a65f1 Mon Sep 17 00:00:00 2001
+From: Alice Mikhaylenko <alicem@gnome.org>
+Date: Sat, 2 Aug 2025 01:31:35 +0400
+Subject: [PATCH 02/18] message-dialog: emit ::response when cancelled too
+
+See e387a1a920e1f3697707dc50d36297125d835b01
+
+
+(cherry picked from commit 20946b3d4f483d8b22aa2d9c29f77b1fda0f1387)
+
+0b042f2f message-dialog: Backport fix from alert-dialog
+
+Co-authored-by: Zander Brown <zbrown@gnome.org>
+
+(cherry picked from commit 6505e4c9e966ff887895d5c7df58f1c3ca0287c8)
+
+Co-authored-by: Alice Mikhaylenko <alicem@gnome.org>
+---
+ src/adw-message-dialog.c | 18 +++++++++++++-----
+ 1 file changed, 13 insertions(+), 5 deletions(-)
+
+diff --git a/src/adw-message-dialog.c b/src/adw-message-dialog.c
+index da26722b..ed028d53 100644
+--- a/src/adw-message-dialog.c
++++ b/src/adw-message-dialog.c
+@@ -406,22 +406,29 @@ parent_changed_cb (AdwMessageDialog *self)
+   set_parent (self, transient_for);
+ }
+ 
+-static void
+-button_clicked_cb (ResponseInfo *info)
++
++static inline void
++emit_response (AdwMessageDialog *self, GQuark response)
+ {
+-  AdwMessageDialog *self = info->dialog;
+   AdwMessageDialogPrivate *priv = adw_message_dialog_get_instance_private (self);
+ 
+   g_object_ref (self);
+   priv->block_close_response = TRUE;
+ 
+   gtk_window_close (GTK_WINDOW (self));
+-  g_signal_emit (self, signals[SIGNAL_RESPONSE], info->id, g_quark_to_string (info->id));
++  g_signal_emit (self, signals[SIGNAL_RESPONSE], response, g_quark_to_string (response));
+ 
+   priv->block_close_response = FALSE;
+   g_object_unref (self);
+ }
+ 
++
++static void
++button_clicked_cb (ResponseInfo *info)
++{
++  emit_response (info->dialog, info->id);
++}
++
+ static GtkWidget *
+ create_response_button (AdwMessageDialog *self,
+                         ResponseInfo     *info)
+@@ -2542,8 +2549,9 @@ choose_cancelled_cb (GCancellable *cancellable,
+                      GTask        *task)
+ {
+   AdwMessageDialog *self = g_task_get_source_object (task);
++  AdwMessageDialogPrivate *priv = adw_message_dialog_get_instance_private (self);
+ 
+-  choose_response_cb (self, adw_message_dialog_get_close_response (self), task);
++  emit_response (self, priv->close_response);
+ }
+ 
+ /**
+-- 
+2.51.1
+

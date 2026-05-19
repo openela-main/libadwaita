@@ -1,0 +1,51 @@
+From 952a198623f896c803750daa1272fcb034714ee7 Mon Sep 17 00:00:00 2001
+From: Alice Mikhaylenko <alicem@mailbox.org>
+Date: Sat, 24 May 2025 04:31:43 +0400
+Subject: [PATCH] expander-row: Implement grab_focus() properly
+
+Fixes https://gitlab.gnome.org/GNOME/libadwaita/-/issues/1037
+
+
+(cherry picked from commit 9715df7acf4fe43b7a244435fac93e7647e6b686)
+
+Co-authored-by: Alice Mikhaylenko <alicem@gnome.org>
+
+(cherry picked from commit 9d474aa3430561f331888400f40e987844a0b14c)
+
+Co-authored-by: Alice Mikhaylenko <alicem@mailbox.org>
+---
+ src/adw-expander-row.c | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
+
+diff --git a/src/adw-expander-row.c b/src/adw-expander-row.c
+index 0307e3b1..fc5011e1 100644
+--- a/src/adw-expander-row.c
++++ b/src/adw-expander-row.c
+@@ -114,6 +114,15 @@ keynav_failed_cb (AdwExpanderRow   *self,
+                                  GTK_DIR_TAB_BACKWARD : GTK_DIR_TAB_FORWARD);
+ }
+ 
++static gboolean
++adw_expander_row_grab_focus (GtkWidget *widget)
++{
++  AdwExpanderRow *self = ADW_EXPANDER_ROW (widget);
++  AdwExpanderRowPrivate *priv = adw_expander_row_get_instance_private (self);
++
++  return gtk_widget_grab_focus (GTK_WIDGET (priv->action_row));
++}
++
+ static void
+ adw_expander_row_get_property (GObject    *object,
+                                guint       prop_id,
+@@ -194,7 +203,7 @@ adw_expander_row_class_init (AdwExpanderRowClass *klass)
+   object_class->set_property = adw_expander_row_set_property;
+ 
+   widget_class->focus = adw_widget_focus_child;
+-  widget_class->grab_focus = adw_widget_grab_focus_child;
++  widget_class->grab_focus = adw_expander_row_grab_focus;
+ 
+   /**
+    * AdwExpanderRow:subtitle:
+-- 
+2.47.1
+

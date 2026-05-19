@@ -1,0 +1,37 @@
+From 0d3e6ca8a24b0ac43a939ebf1f9953ca2ad089ea Mon Sep 17 00:00:00 2001
+From: Alice Mikhaylenko <alicem@mailbox.org>
+Date: Sat, 24 May 2025 04:30:58 +0400
+Subject: [PATCH] widget-utils: Fix a crash in
+ adw_decoration_layout_prefers_start()
+
+Fixes https://gitlab.gnome.org/GNOME/libadwaita/-/issues/1034
+
+
+(cherry picked from commit 1c6fabb677c934fd0289b9fb8687472c47a1ab61)
+
+Co-authored-by: Alice Mikhaylenko <alicem@gnome.org>
+
+(cherry picked from commit 917dda52ce8895c04faf0185c2c368411b2174ff)
+
+Co-authored-by: Alice Mikhaylenko <alicem@mailbox.org>
+---
+ src/adw-widget-utils.c | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/src/adw-widget-utils.c b/src/adw-widget-utils.c
+index 3d76d786..5ca9dc9f 100644
+--- a/src/adw-widget-utils.c
++++ b/src/adw-widget-utils.c
+@@ -617,6 +617,9 @@ adw_decoration_layout_prefers_start (const char *layout)
+   char **sides;
+   int i;
+ 
++  if (!layout || !strchr (layout, ':'))
++    return FALSE;
++
+   sides = g_strsplit (layout, ":", 2);
+ 
+   for (i = 0; i < 2; i++) {
+-- 
+2.47.1
+

@@ -1,0 +1,36 @@
+From 738f71b99df68bd391f20ee6da7f025f8e3f5ad4 Mon Sep 17 00:00:00 2001
+From: Alice <alicem@gnome.org>
+Date: Fri, 12 Sep 2025 23:35:12 +0400
+Subject: [PATCH 15/18] swipe-tracker: Plug snap points leak
+
+As per the docs of adw_swipeable_get_snap_points, the points are
+transfer full.
+
+
+(cherry picked from commit 163b7743a81761a655d9520d35c0180206177510)
+
+Co-authored-by: Maximiliano Sandoval <msandova@gnome.org>
+
+(cherry picked from commit 5b8608b944d2a441a082d88abf3ab06d0bb5854e)
+
+Co-authored-by: Alice Mikhaylenko <alicem@gnome.org>
+---
+ src/adw-swipe-tracker.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/src/adw-swipe-tracker.c b/src/adw-swipe-tracker.c
+index 07581638..4d263dbc 100644
+--- a/src/adw-swipe-tracker.c
++++ b/src/adw-swipe-tracker.c
+@@ -345,6 +345,8 @@ calculate_velocity (AdwSwipeTracker *self)
+   else
+     get_range (self, &lower, &upper);
+ 
++  g_free (points);
++
+   if (self->progress <= lower) {
+     if (self->lower_overshoot && self->progress > lower)
+       velocity *= adjust_for_overshoot (self, lower - self->progress) / (lower - self->progress);
+-- 
+2.51.1
+

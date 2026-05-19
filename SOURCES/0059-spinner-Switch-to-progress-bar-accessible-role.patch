@@ -1,0 +1,59 @@
+From 3ce6356dfbaf544835d22b5a24a3d466d7ac4505 Mon Sep 17 00:00:00 2001
+From: Alice <alicem@gnome.org>
+Date: Fri, 12 Sep 2025 23:35:34 +0400
+Subject: [PATCH 17/18] spinner: Switch to progress bar accessible role
+
+Unlike GtkSpinner, we don't have start/stop API, so just have it as
+always busy.
+
+Fixes https://gitlab.gnome.org/GNOME/libadwaita/-/issues/904
+
+
+(cherry picked from commit f18889012f3c58f4939ddc76914b46ad96415100)
+
+Co-authored-by: Alice Mikhaylenko <alicem@gnome.org>
+
+(cherry picked from commit 8da81dd889b2b7b936ee3aab45c8d1ceb2f4413e)
+
+Co-authored-by: Alice Mikhaylenko <alicem@gnome.org>
+---
+ src/adw-spinner.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
+
+diff --git a/src/adw-spinner.c b/src/adw-spinner.c
+index a494436a..252bc9d0 100644
+--- a/src/adw-spinner.c
++++ b/src/adw-spinner.c
+@@ -50,6 +50,10 @@
+  * `AdwSpinner` has a single node with the name `image` and the style class
+  * `.spinner`.
+  *
++ * ## Accessibility
++ *
++ * `AdwSpinner` uses the [enum@Gtk.AccessibleRole.progress-bar] role.
++ *
+  * Since: 1.6
+  */
+ 
+@@ -117,6 +121,7 @@ adw_spinner_class_init (AdwSpinnerClass *klass)
+   widget_class->snapshot = adw_spinner_snapshot;
+ 
+   gtk_widget_class_set_css_name (widget_class, "image");
++  gtk_widget_class_set_accessible_role (widget_class, GTK_ACCESSIBLE_ROLE_PROGRESS_BAR);
+ }
+ 
+ static void
+@@ -130,6 +135,10 @@ adw_spinner_init (AdwSpinner *self)
+                             G_CALLBACK (gtk_widget_queue_resize), self);
+   g_signal_connect_swapped (self->paintable, "invalidate-contents",
+                             G_CALLBACK (gtk_widget_queue_draw), self);
++
++  gtk_accessible_update_state (GTK_ACCESSIBLE (self),
++                               GTK_ACCESSIBLE_STATE_BUSY, TRUE,
++                               -1);
+ }
+ 
+ /**
+-- 
+2.51.1
+

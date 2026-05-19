@@ -1,0 +1,60 @@
+From 18db0c999afc7eb20fa8e6d699017d78f5183cd1 Mon Sep 17 00:00:00 2001
+From: Alice <alicem@gnome.org>
+Date: Fri, 12 Sep 2025 23:34:35 +0400
+Subject: [PATCH 12/18] message-dialog: Clarify :default-response docs
+
+Same as last commit.
+
+
+(cherry picked from commit b3a4069fda4abf7fa15a16f929190acfc872e971)
+
+Co-authored-by: Alice Mikhaylenko <alicem@gnome.org>
+
+(cherry picked from commit 42db3cbd5d69afd4b78be47637b329b68ad86dc1)
+
+Co-authored-by: Alice Mikhaylenko <alicem@gnome.org>
+---
+ src/adw-message-dialog.c | 18 ++++++++++++------
+ 1 file changed, 12 insertions(+), 6 deletions(-)
+
+diff --git a/src/adw-message-dialog.c b/src/adw-message-dialog.c
+index ed028d53..5845dc91 100644
+--- a/src/adw-message-dialog.c
++++ b/src/adw-message-dialog.c
+@@ -1079,10 +1079,13 @@ adw_message_dialog_class_init (AdwMessageDialogClass *klass)
+    *
+    * The response ID of the default response.
+    *
+-   * If set, pressing <kbd>Enter</kbd> will activate the corresponding button.
++   * The button corresponding to this response will be set as the default widget
++   * of the dialog.
+    *
+-   * If set to `NULL` or a non-existent response ID, pressing <kbd>Enter</kbd>
+-   * will do nothing.
++   * If not set, the default widget will not be set, and the last added response
++   * will be focused by default.
++   *
++   * See [property@Gtk.Window:default-widget].
+    *
+    * Since: 1.2
+    * Deprecated: 1.6: Use [class@AlertDialog].
+@@ -2384,10 +2387,13 @@ adw_message_dialog_get_default_response (AdwMessageDialog *self)
+  *
+  * Sets the ID of the default response of @self.
+  *
+- * If set, pressing <kbd>Enter</kbd> will activate the corresponding button.
++ * The button corresponding to this response will be set as the default widget
++ * of @self.
++ *
++ * If not set, the default widget will not be set, and the last added response
++ * will be focused by default.
+  *
+- * If set to `NULL` or to a non-existent response ID, pressing <kbd>Enter</kbd>
+- * will do nothing.
++ * See [property@Gtk.Widget:default-widget].
+  *
+  * Since: 1.2
+  * Deprecated: 1.6: Use [class@AlertDialog].
+-- 
+2.51.1
+

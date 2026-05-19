@@ -1,0 +1,34 @@
+From 686642f20508a7cc264c23d78ea51f6c3b897a8d Mon Sep 17 00:00:00 2001
+From: Alice Mikhaylenko <alicem@gnome.org>
+Date: Sat, 28 Jun 2025 22:45:38 +0400
+Subject: [PATCH] avatar: Set pixel-size for the custom image too
+
+Fixes a breakage with the recent GtkImage changes.
+
+
+(cherry picked from commit ab837323e30955598986e8de0e1f3bd2ca856d35)
+
+Co-authored-by: Alice Mikhaylenko <alicem@gnome.org>
+
+(cherry picked from commit 53b7b37913fca0e37e3fed1817266c8f1db0bf02)
+
+Co-authored-by: Alice Mikhaylenko <alicem@mailbox.org>
+---
+ src/adw-avatar.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/src/adw-avatar.c b/src/adw-avatar.c
+index 116b8bdd..a80af405 100644
+--- a/src/adw-avatar.c
++++ b/src/adw-avatar.c
+@@ -723,6 +723,7 @@ adw_avatar_set_size (AdwAvatar *self,
+ 
+   gtk_widget_set_size_request (self->gizmo, size, size);
+   gtk_image_set_pixel_size (self->icon, size / 2);
++  gtk_image_set_pixel_size (self->custom_image, size);
+ 
+   if (size < 25)
+     gtk_widget_add_css_class (self->gizmo, "contrasted");
+-- 
+2.47.1
+

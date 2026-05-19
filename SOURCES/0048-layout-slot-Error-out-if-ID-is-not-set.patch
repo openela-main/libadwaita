@@ -1,0 +1,68 @@
+From d22d9561de64e134c88fe08897783bf543b55faa Mon Sep 17 00:00:00 2001
+From: Alice Mikhaylenko <alicem@gnome.org>
+Date: Sat, 2 Aug 2025 01:32:55 +0400
+Subject: [PATCH 06/18] layout-slot: Error out if ID is not set
+
+Fixes https://gitlab.gnome.org/GNOME/libadwaita/-/issues/1059
+
+
+(cherry picked from commit ad446167acf3e6d1ee693f98ca636268be8592a1)
+
+Co-authored-by: Alice Mikhaylenko <alicem@gnome.org>
+
+(cherry picked from commit 991fca4b15b7dcda67618fd97e7ae42133e383d8)
+
+Co-authored-by: Alice Mikhaylenko <alicem@gnome.org>
+---
+ src/adw-layout-slot.c       | 12 ++++++++++++
+ src/adw-multi-layout-view.c |  4 ++++
+ 2 files changed, 16 insertions(+)
+
+diff --git a/src/adw-layout-slot.c b/src/adw-layout-slot.c
+index 04a15164..6786ae91 100644
+--- a/src/adw-layout-slot.c
++++ b/src/adw-layout-slot.c
+@@ -58,6 +58,17 @@ adw_layout_slot_root (GtkWidget *widget)
+     adw_multi_layout_view_register_slot (ADW_MULTI_LAYOUT_VIEW (view), self->id, widget);
+ }
+ 
++static void
++adw_layout_slot_constructed (GObject *object)
++{
++  AdwLayoutSlot *self = ADW_LAYOUT_SLOT (object);
++
++  G_OBJECT_CLASS (adw_layout_slot_parent_class)->constructed (object);
++
++  if (!self->id)
++    g_error ("AdwLayoutSlot %p created without an ID", self);
++}
++
+ static void
+ adw_layout_slot_finalize (GObject *object)
+ {
+@@ -108,6 +119,7 @@ adw_layout_slot_class_init (AdwLayoutSlotClass *klass)
+   GObjectClass *object_class = G_OBJECT_CLASS (klass);
+   GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (klass);
+ 
++  object_class->constructed = adw_layout_slot_constructed;
+   object_class->finalize = adw_layout_slot_finalize;
+   object_class->get_property = adw_layout_slot_get_property;
+   object_class->set_property = adw_layout_slot_set_property;
+diff --git a/src/adw-multi-layout-view.c b/src/adw-multi-layout-view.c
+index 4c372bdb..2e37a53f 100644
+--- a/src/adw-multi-layout-view.c
++++ b/src/adw-multi-layout-view.c
+@@ -685,6 +685,10 @@ adw_multi_layout_view_register_slot (AdwMultiLayoutView *self,
+                                      const char         *id,
+                                      GtkWidget          *slot)
+ {
++  g_return_if_fail (ADW_IS_MULTI_LAYOUT_VIEW (self));
++  g_return_if_fail (id != NULL);
++  g_return_if_fail (GTK_IS_WIDGET (slot));
++
+   if (!self->accepting_slots)
+     return;
+ 
+-- 
+2.51.1
+

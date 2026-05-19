@@ -1,0 +1,58 @@
+From 6f3f393fc671fb9366307261afe53713b05a8c6e Mon Sep 17 00:00:00 2001
+From: Alice Mikhaylenko <alicem@gnome.org>
+Date: Sat, 2 Aug 2025 01:32:43 +0400
+Subject: [PATCH 05/18] dialog: Don't skip activation in window-backed dialogs
+
+Oops, I thought this would propagate it to the window, but apparently not.
+
+Fixes https://gitlab.gnome.org/GNOME/libadwaita/-/issues/1062
+
+
+(cherry picked from commit b2f55904166088d9d84df4f1f69dba3cc84bcc83)
+
+Co-authored-by: Alice Mikhaylenko <alicem@gnome.org>
+
+(cherry picked from commit 59a2319fac62bd6a68a4f3d1709d14bd80d6cdb6)
+
+Co-authored-by: Alice Mikhaylenko <alicem@gnome.org>
+---
+ src/adw-dialog.c | 16 ++--------------
+ 1 file changed, 2 insertions(+), 14 deletions(-)
+
+diff --git a/src/adw-dialog.c b/src/adw-dialog.c
+index be62ae17..bcfcf6db 100644
+--- a/src/adw-dialog.c
++++ b/src/adw-dialog.c
+@@ -661,13 +661,7 @@ present_as_window (AdwDialog *self,
+ static gboolean
+ activate_focus_cb (AdwDialog *self)
+ {
+-  AdwDialogPrivate *priv = adw_dialog_get_instance_private (self);
+-  GtkRoot *root;
+-
+-  if (priv->window)
+-    return GDK_EVENT_PROPAGATE;
+-
+-  root = gtk_widget_get_root (GTK_WIDGET (self));
++  GtkRoot *root = gtk_widget_get_root (GTK_WIDGET (self));
+ 
+   if (!GTK_IS_WINDOW (root))
+     return GDK_EVENT_PROPAGATE;
+@@ -680,13 +674,7 @@ activate_focus_cb (AdwDialog *self)
+ static gboolean
+ activate_default_cb (AdwDialog *self)
+ {
+-  AdwDialogPrivate *priv = adw_dialog_get_instance_private (self);
+-  GtkRoot *root;
+-
+-  if (priv->window)
+-    return GDK_EVENT_PROPAGATE;
+-
+-  root = gtk_widget_get_root (GTK_WIDGET (self));
++  GtkRoot *root = gtk_widget_get_root (GTK_WIDGET (self));
+ 
+   if (!GTK_IS_WINDOW (root))
+     return GDK_EVENT_PROPAGATE;
+-- 
+2.51.1
+

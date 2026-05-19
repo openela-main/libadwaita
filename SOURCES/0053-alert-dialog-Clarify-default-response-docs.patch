@@ -1,0 +1,63 @@
+From c1f28b10a5d03173f6b92d82ae79572eef50a222 Mon Sep 17 00:00:00 2001
+From: Alice <alicem@gnome.org>
+Date: Fri, 12 Sep 2025 23:34:30 +0400
+Subject: [PATCH 11/18] alert-dialog: Clarify :default-response docs
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Fixes https://gitlab.gnome.org/GNOME/libadwaita/-/issues/1044
+
+
+(cherry picked from commit 575338b9ba22a365978f75b479f44ec4bc38744b)
+
+Co-authored-by: Lukáš Tyrychtr <ltyrycht@redhat.com>
+
+(cherry picked from commit 38ce8b584ce1d9e71c3d4ab27280ddeea2d9a512)
+
+Co-authored-by: Alice Mikhaylenko <alicem@gnome.org>
+---
+ src/adw-alert-dialog.c | 18 ++++++++++++------
+ 1 file changed, 12 insertions(+), 6 deletions(-)
+
+diff --git a/src/adw-alert-dialog.c b/src/adw-alert-dialog.c
+index 24347cb8..da46a557 100644
+--- a/src/adw-alert-dialog.c
++++ b/src/adw-alert-dialog.c
+@@ -979,10 +979,13 @@ adw_alert_dialog_class_init (AdwAlertDialogClass *klass)
+    *
+    * The response ID of the default response.
+    *
+-   * If set, pressing <kbd>Enter</kbd> will activate the corresponding button.
++   * The button corresponding to this response will be set as the default widget
++   * of the dialog.
+    *
+-   * If set to `NULL` or a non-existent response ID, pressing <kbd>Enter</kbd>
+-   * will do nothing.
++   * If not set, the default widget will not be set, and the last added response
++   * will be focused by default.
++   *
++   * See [property@Dialog:default-widget].
+    *
+    * Since: 1.5
+    */
+@@ -2316,10 +2319,13 @@ adw_alert_dialog_get_default_response (AdwAlertDialog *self)
+  *
+  * Sets the ID of the default response of @self.
+  *
+- * If set, pressing <kbd>Enter</kbd> will activate the corresponding button.
++ * The button corresponding to this response will be set as the default widget
++ * of @self.
++ *
++ * If not set, the default widget will not be set, and the last added response
++ * will be focused by default.
+  *
+- * If set to `NULL` or to a non-existent response ID, pressing <kbd>Enter</kbd>
+- * will do nothing.
++ * See [property@Dialog:default-widget].
+  *
+  * Since: 1.5
+  */
+-- 
+2.51.1
+
